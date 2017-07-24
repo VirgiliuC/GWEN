@@ -125,6 +125,18 @@ namespace Gwen
 			return Point( x - p.x, y - p.y );
 		}
 
+
+		void operator *= ( float scalar )
+		{
+			x *= scalar;
+			y *= scalar;
+		}
+
+		Point operator * ( float scalar ) const
+		{
+			return Point( x *scalar, y *scalar );
+		}
+
 		int x, y;
 	};
 
