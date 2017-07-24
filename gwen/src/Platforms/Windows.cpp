@@ -3,6 +3,7 @@
 	Copyright (c) 2011 Facepunch Studios
 	See license in Gwen.h
 */
+//#define _WIN32
 
 #ifdef _WIN32
 
@@ -19,8 +20,8 @@
 #include "Gwen/Input/Windows.h"
 
 #include <windows.h>
-#include <ShlObj.h>
-#include <Shobjidl.h>
+//#include <ShlObj.h>
+//#include <Shobjidl.h>
 
 using namespace Gwen;
 using namespace Gwen::Platform;
@@ -186,7 +187,7 @@ bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath, co
 
 bool Gwen::Platform::FolderOpen( const String & Name, const String & StartPath, Gwen::Event::Handler* pHandler, Event::Handler::FunctionWithInformation fnCallback )
 {
-	IFileDialog* pfd = NULL;
+/*	IFileDialog* pfd = NULL;
 	bool bSuccess = false;
 
 #ifndef _MSC_VER
@@ -243,7 +244,7 @@ bool Gwen::Platform::FolderOpen( const String & Name, const String & StartPath, 
 	}
 
 	pfd->Release();
-	return bSuccess;
+	return bSuccess;*/
 }
 
 bool Gwen::Platform::FileSave( const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler, Gwen::Event::Handler::FunctionWithInformation fnCallback )

@@ -10,6 +10,7 @@
 #include "Gwen/Controls/CollapsibleList.h"
 #include "Gwen/Controls/Layout/Position.h"
 #include "Gwen/Platform.h"
+#include <cstdio>
 
 using namespace Gwen;
 
@@ -110,7 +111,10 @@ void UnitTest::Render( Gwen::Skin::Base* skin )
 
 	if ( m_fLastSecond < Gwen::Platform::GetTimeInSeconds() )
 	{
-		m_StatusBar->SetText( Gwen::Utility::Format( L"GWEN Unit Test - %i fps", m_iFrames * 2 ) );
+//		m_StatusBar->SetText( Gwen::Utility::Format( L"GWEN Unit Test - %i fps", m_iFrames * 2 ) );
+        char fps[64];
+		::sprintf(fps,"GWEN Unit Test - %d fps", m_iFrames * 2 );
+		m_StatusBar->SetText( fps);
 		m_fLastSecond = Gwen::Platform::GetTimeInSeconds() + 0.5f;
 		m_iFrames = 0;
 	}

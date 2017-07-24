@@ -34,6 +34,7 @@ WindowCanvas::WindowCanvas( int x, int y, int w, int h, Gwen::Skin::Base* pSkin,
 
 		if ( y < 0 ) { y = ( dh - h ) * 0.5; }
 	}
+	BaseClass::SetPos(x,y);
 	m_pOSWindow = Gwen::Platform::CreatePlatformWindow( x, y, w, h, strWindowTitle );
 	m_WindowPos  = Gwen::Point( x, y );
 	pSkin->GetRender()->InitializeContext( this );
@@ -230,6 +231,7 @@ void WindowCanvas::SetPos( int x, int y )
 	y = Gwen::Clamp( y, 0, h );
 	m_WindowPos.x = x;
 	m_WindowPos.y = y;
+	BaseClass::SetPos(x,y);
 	Gwen::Platform::SetBoundsPlatformWindow( m_pOSWindow, x, y, Width(), Height() );
 }
 

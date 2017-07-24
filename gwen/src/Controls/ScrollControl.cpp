@@ -73,7 +73,7 @@ void ScrollControl::Layout( Skin::Base* skin )
 
 bool ScrollControl::OnMouseWheeled( int iDelta )
 {
-	if ( CanScrollV() && m_VerticalScrollBar->Visible() )
+	if ( !Input::IsShiftDown() && CanScrollV() && m_VerticalScrollBar->Visible() )
 	{
 		if ( m_VerticalScrollBar->SetScrolledAmount( m_VerticalScrollBar->GetScrolledAmount() - m_VerticalScrollBar->GetNudgeAmount() * ( ( float ) iDelta / 60.0f ), true ) )
 		{ return true; }
@@ -202,7 +202,7 @@ void ScrollControl::SetVScrollRequired( bool req )
 	{
 		m_VerticalScrollBar->SetHidden( false );
 		m_VerticalScrollBar->SetDisabled( false );
-        
+
         if ( !m_bAutoHideBars )
         { m_VerticalScrollBar->SetHidden( false ); }
 	}
@@ -223,8 +223,8 @@ void ScrollControl::SetHScrollRequired( bool req )
 	else
 	{
 		m_HorizontalScrollBar->SetHidden( false );
-		m_HorizontalScrollBar->SetDisabled( true );
-        
+		m_HorizontalScrollBar->SetDisabled( false );
+
         if ( !m_bAutoHideBars )
         { m_HorizontalScrollBar->SetHidden( false ); }
 	}
