@@ -8,7 +8,14 @@
 #include <math.h>
 
 #include "GL/glew.h"
-#include "FreeImage/FreeImage.h"
+
+//#define STBI_ASSERT(x)  // comment in for no asserts
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#define STB_TRUETYPE_IMPLEMENTATION
+#define STBTT_STATIC
+#include "stb_truetype.h"
 
 
 namespace Gwen
@@ -16,10 +23,9 @@ namespace Gwen
 	namespace Renderer
 	{
 		OpenGL::OpenGL()
+			: m_iVertNum (0), m_pContext(NULL)
 		{
-			m_iVertNum = 0;
-			m_pContext = NULL;
-			::FreeImage_Initialise();
+//			::FreeImage_Initialise();
 
 			for ( int i = 0; i < MaxVerts; i++ )
 			{
@@ -29,7 +35,7 @@ namespace Gwen
 
 		OpenGL::~OpenGL()
 		{
-			::FreeImage_DeInitialise();
+//			::FreeImage_DeInitialise();
 		}
 
 		void OpenGL::Init()
@@ -161,58 +167,78 @@ namespace Gwen
 
 		void OpenGL::LoadTexture( Gwen::Texture* pTexture )
 		{
-			const wchar_t* wFileName = pTexture->name.GetUnicode().c_str();
-			FREE_IMAGE_FORMAT imageFormat = FreeImage_GetFileTypeU( wFileName );
+		    const std::string &fileName = pTexture->name;
+//			const wchar_t* wFileName = pTexture->name.GetUnicode().c_str();
 
-			if ( imageFormat == FIF_UNKNOWN )
-			{ imageFormat = FreeImage_GetFIFFromFilenameU( wFileName ); }
-
-			// Image failed to load..
-			if ( imageFormat == FIF_UNKNOWN )
-			{
-				pTexture->failed = true;
-				return;
-			}
-
-			// Try to load the image..
-			FIBITMAP* bits = FreeImage_LoadU( imageFormat, wFileName );
-
-			if ( !bits )
-			{
-				pTexture->failed = true;
-				return;
-			}
-
-			// Convert to 32bit
-			FIBITMAP* bits32 = FreeImage_ConvertTo32Bits( bits );
-			FreeImage_Unload( bits );
-
-			if ( !bits32 )
-			{
-				pTexture->failed = true;
-				return;
-			}
-
-			// Flip
-			::FreeImage_FlipVertical( bits32 );
+//			FREE_IMAGE_FORMAT imageFormat = FreeImage_GetFileTypeU( wFileName );
+//
+//			if ( imageFormat == FIF_UNKNOWN )
+//			{ imageFormat = FreeImage_GetFIFFromFilenameU( wFileName ); }
+//
+//			// Image failed to load..
+//			if ( imageFormat == FIF_UNKNOWN )
+//			{
+//				pTexture->failed = true;
+//				return;
+//			}
+//
+//			// Try to load the image..
+//			FIBITMAP* bits = FreeImage_LoadU( imageFormat, wFileName );
+//
+//			if ( !bits )
+//			{
+//				pTexture->failed = true;
+//				return;
+//			}
+//
+//			// Convert to 32bit
+//			FIBITMAP* bits32 = FreeImage_ConvertTo32Bits( bits );
+//			FreeImage_Unload( bits );
+//
+//			if ( !bits32 )
+//			{
+//				pTexture->failed = true;
+//				return;
+//			}
+//
+//			// Flip
+//			::FreeImage_FlipVertical( bits32 );
 			// Create a little texture pointer..
-			GLuint* pglTexture = new GLuint;
-			// Sort out our GWEN texture
-			pTexture->data = pglTexture;
-			pTexture->width = FreeImage_GetWidth( bits32 );
-			pTexture->height = FreeImage_GetHeight( bits32 );
+//			GLuint* pglTexture = new GLuint;
+//			// Sort out our GWEN texture
+//			pTexture->data = pglTexture;
+//			pTexture->width = FreeImage_GetWidth( bits32 );
+//			pTexture->height = FreeImage_GetHeight( bits32 );
+            int x,y,n;
+            unsigned char *data = stbi_load(fileName.c_str(), &x, &y, &n, 4);
+
+            // Image failed to load..
+            if (!data)
+            {
+                pTexture->failed = true;
+                return;
+            }
+
+            // Create a little texture pointer..
+            GLuint* pglTexture = new GLuint;
+
+            pTexture->data = pglTexture;
+            pTexture->width = x;
+            pTexture->height = y;
 			// Create the opengl texture
 			glGenTextures( 1, pglTexture );
 			glBindTexture( GL_TEXTURE_2D, *pglTexture );
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 			glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-#ifdef FREEIMAGE_BIGENDIAN
+//#ifdef FREEIMAGE_BIGENDIAN
 			GLenum format = GL_RGBA;
-#else
-			GLenum format = GL_BGRA;
-#endif
-			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, pTexture->width, pTexture->height, 0, format, GL_UNSIGNED_BYTE, ( const GLvoid* ) FreeImage_GetBits( bits32 ) );
-			FreeImage_Unload( bits32 );
+//#else
+//			GLenum format = GL_BGRA;
+//#endif
+			glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, pTexture->width, pTexture->height, 0,
+                        format, GL_UNSIGNED_BYTE, ( const GLvoid* ) data);//FreeImage_GetBits( bits32 ) );
+//			FreeImage_Unload( bits32 );
+            stbi_image_free(data);
 		}
 
 		void OpenGL::FreeTexture( Gwen::Texture* pTexture )
