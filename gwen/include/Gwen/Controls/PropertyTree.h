@@ -20,7 +20,7 @@ namespace Gwen
 {
 	namespace Controls
 	{
-		class PropertyTreeNode : public TreeNode
+		class GWEN_EXPORT PropertyTreeNode : public TreeNode
 		{
 			public:
 
@@ -36,7 +36,7 @@ namespace Gwen
 
 		};
 
-		class PropertyTree : public TreeControl
+		class GWEN_EXPORT PropertyTree : public TreeControl
 		{
 			public:
 

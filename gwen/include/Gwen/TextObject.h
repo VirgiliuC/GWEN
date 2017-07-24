@@ -19,7 +19,7 @@ namespace Gwen
 		Just makes things easier instead of having a function taking both.
 
 	*/
-	class TextObject
+	class GWEN_EXPORT TextObject
 	{
 		public:
 

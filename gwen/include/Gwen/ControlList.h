@@ -23,7 +23,7 @@ namespace Gwen
 	}
 
 	template < typename TYPE >
-	class TEasyList
+	class GWEN_EXPORT TEasyList
 	{
 		public:
 
@@ -68,7 +68,7 @@ namespace Gwen
 			List list;
 	};
 
-	class ControlList : public TEasyList<Gwen::Controls::Base*>
+	class GWEN_EXPORT ControlList : public TEasyList<Gwen::Controls::Base*>
 	{
 		public:
 
