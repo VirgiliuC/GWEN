@@ -63,7 +63,7 @@ namespace Gwen
 				Base( Base* pParent, const Gwen::String & Name = "" );
 				virtual ~Base();
 
-				virtual const char* GetTypeName() { return "Base"; }
+				virtual const char* GetTypeName()  const { return "Base"; }
 
 				virtual void DelayedDelete();
 				virtual void PreDelete( Gwen::Skin::Base* skin ) {};
@@ -83,7 +83,7 @@ namespace Gwen
 				template <typename T> T* FindChild( const Gwen::String & name, bool bRecursive = false );
 
 				virtual void SetName( const Gwen::String & name ) { m_Name = name; }
-				virtual const Gwen::String & GetName() { return m_Name; }
+				virtual const Gwen::String & GetName()  const { return m_Name; }
 
 				virtual void Think() {}
 
@@ -123,12 +123,12 @@ namespace Gwen
 
 				virtual void SetPos( int x, int y );
 				virtual void SetPos( const Point & p ) { return SetPos( p.x, p.y ); }
-				virtual Point GetPos() { return Point( X(), Y() ); }
+				virtual Point GetPos()  const { return Point( X(), Y() ); }
 				virtual void SetWidth( int w ) { SetSize( w, Height() ); }
 				virtual void SetHeight( int h ) { SetSize( Width(), h ); }
 				virtual bool SetSize( int w, int h );
 				virtual bool SetSize( const Point & p );
-				virtual Point GetSize() { return Point( Width(), Height() ); }
+				virtual Point GetSize()  const { return Point( Width(), Height() ); }
 				virtual bool SetBounds( int x, int y, int w, int h );
 				virtual bool SetBounds( const Gwen::Rect & bounds );
 
@@ -262,7 +262,7 @@ namespace Gwen
 
 				//Other
 				virtual void SetDisabled( bool active ) { if ( m_bDisabled == active ) { return; } m_bDisabled = active; Redraw(); }
-				virtual bool IsDisabled() { return m_bDisabled; }
+				virtual bool IsDisabled() const { return m_bDisabled; }
 
 				virtual void Redraw() { UpdateColours(); m_bCacheTextureDirty = true; if ( m_Parent ) { m_Parent->Redraw(); } }
 				virtual void UpdateColours() {};
@@ -272,17 +272,17 @@ namespace Gwen
 				virtual void SetCursor( unsigned char c ) { m_Cursor = c; }
 				virtual void UpdateCursor();
 
-				virtual Gwen::Point GetMinimumSize() { return Gwen::Point( 1, 1 ); }
-				virtual Gwen::Point GetMaximumSize() { return Gwen::Point( 4096, 4096 ); }
+				virtual Gwen::Point GetMinimumSize() const  { return Gwen::Point( 1, 1 ); }
+				virtual Gwen::Point GetMaximumSize() const  { return Gwen::Point( 4096, 4096 ); }
 
 				virtual void SetToolTip( const Gwen::TextObject & strText );
 				virtual void SetToolTip( Base* tooltip ) { m_ToolTip = tooltip; if ( m_ToolTip ) { m_ToolTip->SetParent( this ); m_ToolTip->SetHidden( true ); } }
-				virtual Base* GetToolTip() { return m_ToolTip; }
+				virtual Base* GetToolTip() const  { return m_ToolTip; }
 
 				virtual bool IsMenuComponent();
 				virtual void CloseMenus();
 
-				virtual bool IsTabable() { return m_Tabable; }
+				virtual bool IsTabable() const  { return m_Tabable; }
 				virtual void SetTabable( bool isTabable ) { m_Tabable = isTabable; }
 
 
