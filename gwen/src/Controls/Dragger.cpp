@@ -36,6 +36,7 @@ void Dragger::OnMouseClickLeft( int x, int y, bool bDown )
 	{
 		m_bDepressed = false;
 		Gwen::MouseFocus = NULL;
+		onDragEnd.Call( this );
 	}
 }
 

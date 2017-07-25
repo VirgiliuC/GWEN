@@ -37,6 +37,7 @@ namespace Gwen
 
 				Gwen::Event::Caller	onDragged;
 				Gwen::Event::Caller	onDragStart;
+				Gwen::Event::Caller	onDragEnd;
 
 				Gwen::Event::Caller	onDoubleClickLeft;
 
