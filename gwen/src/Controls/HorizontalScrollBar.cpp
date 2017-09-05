@@ -66,7 +66,7 @@ void HorizontalScrollBar::ScrollToRight()
 	SetScrolledAmount( 1, true );
 }
 
-float HorizontalScrollBar::GetNudgeAmount()
+float HorizontalScrollBar::GetNudgeAmount()const
 {
 	if ( m_bDepressed )
 	{ return m_fViewableContentSize / m_fContentSize; }

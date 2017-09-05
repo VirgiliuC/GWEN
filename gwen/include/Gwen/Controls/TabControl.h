@@ -25,6 +25,7 @@ namespace Gwen
 	{
 		class GWEN_EXPORT TabControl : public Base
 		{
+		    public:
 				GWEN_CONTROL( TabControl, Base );
 
 				virtual TabButton* AddPage( const TextObject strText, Controls::Base* pPage = NULL );

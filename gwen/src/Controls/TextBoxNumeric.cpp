@@ -77,7 +77,7 @@ bool TextBoxNumeric::IsTextAllowed( const Gwen::UnicodeString & str, int iPos )
 	return true;
 }
 
-float TextBoxNumeric::GetFloatFromText()
+float TextBoxNumeric::GetFloatFromText() const
 {
 	double temp = Gwen::Utility::Strings::To::Float( GetText().GetUnicode() );
 	return temp;

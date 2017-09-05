@@ -38,7 +38,7 @@ namespace Gwen
 
 		namespace Tools
 		{
-			ControlList GetExportableChildren( Gwen::Controls::Base* pRoot );
+			ControlList GetExportableChildren( Gwen::Controls::Base* pRoot )const ;
 		}
 	}
 }

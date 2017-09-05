@@ -110,7 +110,7 @@ void TabStrip::Layout( Skin::Base* skin )
 	}
 
 	if ( m_iDock == Pos::Top || m_iDock == Pos::Bottom )
-	{ SetSize( Width(), pLargestTab.y ); }
+	{ SetSize( Width(), pLargestTab.y); }
 
 	if ( m_iDock == Pos::Left || m_iDock == Pos::Right )
 	{ SetSize( pLargestTab.x, Height() ); }

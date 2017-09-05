@@ -36,7 +36,7 @@ namespace Gwen
 				}
 
 				void SetFileType( const Gwen::String & string ) { m_FileType = string; }
-				Gwen::String GetFileType() { return m_FileType; }
+				Gwen::String GetFileType() const { return m_FileType; }
 
 				void SetFileName( const TextObject & strValue )
 				{
@@ -45,7 +45,7 @@ namespace Gwen
 					onFileChanged.Call( this );
 				}
 
-				const Gwen::TextObject & GetFileName()
+				const Gwen::TextObject & GetFileName()const
 				{
 					return m_TextBox->GetText();
 				}
@@ -55,7 +55,7 @@ namespace Gwen
 					Gwen::Dialogs::FileOpen( true, "Name", "Start Path", m_FileType, this, &FilePicker::SetFileNameEvent );
 				}
 
-				virtual TextObject GetValue() { return GetFileName(); }
+				virtual TextObject GetValue() const  { return GetFileName(); }
 				virtual void SetValue( const TextObject & strValue ) { return SetFileName( strValue ); }
 
 				Event::Caller	onFileChanged;

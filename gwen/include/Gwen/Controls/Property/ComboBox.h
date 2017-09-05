@@ -32,7 +32,7 @@ namespace Gwen
 						SetHeight( 18 );
 					}
 
-					virtual TextObject GetPropertyValue()
+					virtual TextObject GetPropertyValue()const
 					{
 						Gwen::Controls::Label* pControl = m_ComboBox->GetSelectedItem();
 

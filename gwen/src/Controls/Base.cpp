@@ -1142,14 +1142,14 @@ void Base::SetToolTip( const TextObject & strText )
 
 TextObject Base::GetChildValue( const Gwen::String & strName )
 {
-	Base* pChild = FindChildByName( strName, true );
+	const Base* pChild = FindChildByName( strName, true );
 
 	if ( !pChild ) { return ""; }
 
 	return pChild->GetValue();
 }
 
-TextObject Base::GetValue()
+TextObject Base::GetValue()const
 {
 	// Generic value accessor should be filled in if we have a value to give.
 	return "";
@@ -1159,10 +1159,10 @@ void Base::SetValue( const TextObject & strValue )
 {
 }
 
-int Base::GetNamedChildren( Gwen::ControlList & list, const Gwen::String & strName, bool bDeep )
+int Base::GetNamedChildren( Gwen::ControlList & list, const Gwen::String & strName, bool bDeep )const
 {
 	int iFound = 0;
-	Base::List::iterator iter;
+	Base::List::const_iterator iter;
 
 	for ( iter = Children.begin(); iter != Children.end(); ++iter )
 	{
@@ -1182,7 +1182,7 @@ int Base::GetNamedChildren( Gwen::ControlList & list, const Gwen::String & strNa
 	return iFound;
 }
 
-Gwen::ControlList Base::GetNamedChildren( const Gwen::String & strName, bool bDeep )
+Gwen::ControlList Base::GetNamedChildren( const Gwen::String & strName, bool bDeep )const
 {
 	Gwen::ControlList list;
 	GetNamedChildren( list, strName, bDeep );

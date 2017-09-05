@@ -50,8 +50,8 @@ void Text::SetFont( Gwen::Font* pFont )
 	m_bTextChanged = true;
 	// Change the font of multilines too!
 	{
-		TextLines::iterator it = m_Lines.begin();
-		TextLines::iterator itEnd = m_Lines.end();
+		TextLines::const_iterator it = m_Lines.begin();
+		TextLines::const_iterator itEnd = m_Lines.end();
 
 		while ( it != itEnd )
 		{
@@ -89,8 +89,8 @@ Gwen::Rect Text::GetCharacterPosition( int iChar )
 {
 	if ( !m_Lines.empty() )
 	{
-		TextLines::iterator it = m_Lines.begin();
-		TextLines::iterator itEnd = m_Lines.end();
+		TextLines::const_iterator it = m_Lines.begin();
+		TextLines::const_iterator itEnd = m_Lines.end();
 		int iChars = 0;
 
 		Text* pLine;
@@ -112,7 +112,7 @@ Gwen::Rect Text::GetCharacterPosition( int iChar )
 		Gwen::Rect rect = pLine->GetCharacterPosition( pLine->Length() );
 		rect.x += pLine->X();
 		rect.y += pLine->Y();
-		return rect; 
+		return rect;
 	}
 
 	if ( Length() == 0 || iChar == 0 )
@@ -140,14 +140,14 @@ Gwen::Rect Text::GetLineBox( int i )
 		return Gwen::Rect(0, 0, Clamp(p.x, 1,p.x), Clamp(p.y, 1,p.y) );
 	}
 }
- 
+
 
 int Text::GetClosestCharacter( Gwen::Point p )
 {
 	if ( !m_Lines.empty() )
 	{
-		TextLines::iterator it = m_Lines.begin();
-		TextLines::iterator itEnd = m_Lines.end();
+		TextLines::const_iterator it = m_Lines.begin();
+		TextLines::const_iterator itEnd = m_Lines.end();
 		int iChars = 0;
 
 		Text* pLine;
@@ -228,7 +228,7 @@ void Text::SplitWords(const Gwen::UnicodeString &s, std::vector<Gwen::UnicodeStr
 	Gwen::UnicodeString str;
 
 	int w = GetParent()->Width() - GetParent()->GetPadding().left-GetParent()->GetPadding().right;
-	for ( int i=0; i<(int)s.length(); i++ ) 
+	for ( int i=0; i<(int)s.length(); i++ )
 	{
 		if ( s[i] == L'\n' )
 		{
@@ -251,7 +251,7 @@ void Text::SplitWords(const Gwen::UnicodeString &s, std::vector<Gwen::UnicodeStr
 
 		//if adding character makes the word bigger than the textbox size
 		Gwen::Point p = GetSkin()->GetRender()->MeasureText( GetFont(), str );
-		if ( p.x > w ) 
+		if ( p.x > w )
 		{
 			int addSum = GetPadding().left+GetPadding().right;
 			//split words
@@ -270,7 +270,7 @@ void Text::RefreshSizeWrap()
 {
 	RemoveAllChildren();
 
-	for ( TextLines::iterator it = m_Lines.begin(); it != m_Lines.end(); ++it )
+	for ( TextLines::const_iterator it = m_Lines.begin(); it != m_Lines.end(); ++it )
 	{
 		delete *it;
 	}
@@ -289,7 +289,7 @@ void Text::RefreshSizeWrap()
 	}
 
 	Point pFontSize = GetSkin()->GetRender()->MeasureText( GetFont(), L" " );
-	int w = GetParent()->Width() - GetParent()->GetPadding().left-GetParent()->GetPadding().right; 
+	int w = GetParent()->Width() - GetParent()->GetPadding().left-GetParent()->GetPadding().right;
 	int x = 0, y = 0;
 	Gwen::UnicodeString strLine;
 
@@ -330,7 +330,7 @@ void Text::RefreshSizeWrap()
 				t->SetString( strLine.substr( 0, strLine.length()) );
 				//new line is empty
 				strLine.clear();
-			} 
+			}
 			t->RefreshSize();
 			t->SetPos( x, y );
 			m_Lines.push_back( t );
@@ -354,15 +354,31 @@ void Text::RefreshSizeWrap()
 	Invalidate();
 }
 
-int Text::NumLines()
+int Text::NumLines() const
 {
 	return m_Lines.size();
 }
 
 Text* Text::GetLine( int i )
 {
-	TextLines::iterator it = m_Lines.begin();
-	TextLines::iterator itEnd = m_Lines.end();
+	TextLines::const_iterator it = m_Lines.begin();
+	TextLines::const_iterator itEnd = m_Lines.end();
+
+	while ( it != itEnd )
+	{
+		if ( i == 0 ) { return *it; }
+
+		++it;
+		i--;
+	}
+
+	return NULL;
+}
+const
+Text* Text::GetLine( int i ) const
+{
+	TextLines::const_iterator it = m_Lines.begin();
+	TextLines::const_iterator itEnd = m_Lines.end();
 
 	while ( it != itEnd )
 	{
@@ -375,10 +391,10 @@ Text* Text::GetLine( int i )
 	return NULL;
 }
 
-int Text::GetLineFromChar( int i )
+int Text::GetLineFromChar( int i )const
 {
-	TextLines::iterator it = m_Lines.begin();
-	TextLines::iterator itEnd = m_Lines.end();
+	TextLines::const_iterator it = m_Lines.begin();
+	TextLines::const_iterator itEnd = m_Lines.end();
 	int iChars = 0;
 	int iLine = 0;
 
@@ -397,10 +413,10 @@ int Text::GetLineFromChar( int i )
 	return iLine;
 }
 
-int Text::GetStartCharFromLine( int i )
+int Text::GetStartCharFromLine( int i )const
 {
-	TextLines::iterator it = m_Lines.begin();
-	TextLines::iterator itEnd = m_Lines.end();
+	TextLines::const_iterator it = m_Lines.begin();
+	TextLines::const_iterator itEnd = m_Lines.end();
 	int iChars = 0;
 
 	while ( it != itEnd )
@@ -417,10 +433,10 @@ int Text::GetStartCharFromLine( int i )
 	return Gwen::Clamp( iChars, 0, Length() );
 }
 
-int Text::GetEndCharFromLine( int i )
+int Text::GetEndCharFromLine( int i )const
 {
 	int iStart = GetStartCharFromLine( i );
-	Text* iLine = GetLine( i );
+	const Text* iLine = GetLine( i );
 
 	if ( iLine )
 	{
@@ -430,10 +446,10 @@ int Text::GetEndCharFromLine( int i )
 	return Gwen::Clamp( iStart, 0, Length() );
 }
 
-int Text::GetCharPosOnLine( int i )
+int Text::GetCharPosOnLine( int i )const
 {
 	int iLine = GetLineFromChar( i );
-	Text* line = GetLine( iLine );
+	const Text* line = GetLine( iLine );
 
 	if ( !line ) { return 0; }
 

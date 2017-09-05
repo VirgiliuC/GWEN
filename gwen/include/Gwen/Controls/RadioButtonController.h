@@ -34,8 +34,8 @@ namespace Gwen
 
 				virtual LabeledRadioButton*	GetSelected() { return m_Selected; }
 
-				virtual const Gwen::String & GetSelectedName() { return m_Selected->GetName(); }
-				virtual const TextObject & GetSelectedLabel() { return m_Selected->GetLabel()->GetText(); }
+				virtual const Gwen::String & GetSelectedName() const { return m_Selected->GetName(); }
+				virtual const TextObject & GetSelectedLabel() const { return m_Selected->GetLabel()->GetText(); }
 
 				Event::Caller		onSelectionChange;
 

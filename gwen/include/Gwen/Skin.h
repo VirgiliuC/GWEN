@@ -228,6 +228,7 @@ namespace Gwen
 
 					} Category;
 
+					Gwen::Color Text;
 					Gwen::Color ModalBackground;
 					Gwen::Color TooltipText;
 

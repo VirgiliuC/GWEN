@@ -72,7 +72,7 @@ namespace Gwen
 						DoChanged();
 					}
 
-					virtual TextObject GetPropertyValue()
+					virtual TextObject GetPropertyValue()const
 					{
 						return m_TextBox->GetText();
 					}

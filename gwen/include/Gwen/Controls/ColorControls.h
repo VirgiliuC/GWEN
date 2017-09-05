@@ -23,11 +23,11 @@ namespace Gwen
 			public:
 				GWEN_CONTROL( ColorLerpBox, Controls::Base );
 				virtual void Render( Gwen::Skin::Base* skin );
-				Gwen::Color GetColorAtPos( int x, int y );
+				Gwen::Color GetColorAtPos( int x, int y )const ;
 				void SetColor( Gwen::Color color, bool onlyHue = true );
 				virtual void OnMouseMoved( int x, int y, int deltaX, int deltaY );
 				virtual void OnMouseClickLeft( int x, int y, bool bDown );
-				Gwen::Color GetSelectedColor();
+				Gwen::Color GetSelectedColor()const ;
 
 				Event::Caller	onSelectionChanged;
 			protected:
@@ -44,8 +44,8 @@ namespace Gwen
 				virtual void Render( Gwen::Skin::Base* skin );
 				virtual void OnMouseMoved( int x, int y, int deltaX, int deltaY );
 				virtual void OnMouseClickLeft( int x, int y, bool bDown );
-				Gwen::Color GetSelectedColor();
-				Gwen::Color GetColorAtHeight( int y );
+				Gwen::Color GetSelectedColor()const ;
+				Gwen::Color GetColorAtHeight( int y )const ;
 				void SetColor( Gwen::Color color );
 
 				Event::Caller	onSelectionChanged;

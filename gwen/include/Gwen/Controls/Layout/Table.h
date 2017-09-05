@@ -21,6 +21,7 @@ namespace Gwen
 
 			class GWEN_EXPORT TableRow : public Base
 			{
+			    public:
 					static const int MaxColumns = 16;
 
 					GWEN_CONTROL_INLINE( TableRow, Base )
@@ -126,7 +127,7 @@ namespace Gwen
 					}
 
 					//You might hate this. Actually I know you will
-					virtual const TextObject & GetText( int i )
+					virtual const TextObject & GetText( int i )const
 					{
 						return m_Columns[i]->GetText();
 					}
@@ -137,7 +138,7 @@ namespace Gwen
 					//
 					Gwen::Event::Caller	onRowSelected;
 
-					virtual bool GetEven() { return m_bEvenRow; }
+					virtual bool GetEven()const  { return m_bEvenRow; }
 					virtual void SetEven( bool b ) { m_bEvenRow = b; }
 
 				private:

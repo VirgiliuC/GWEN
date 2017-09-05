@@ -47,7 +47,7 @@ GWEN_CONTROL_CONSTRUCTOR( ProgressBar )
 	Gwen::Anim::Add( this, new ProgressBarThink() );
 }
 
-void ProgressBar::SetValue( float val )
+void ProgressBar::SetProgressValue( float val )
 {
 	if ( val < 0 )
 	{ val = 0; }
@@ -84,7 +84,7 @@ void ProgressBar::Render( Skin::Base* skin )
 	skin->DrawProgressBar( this, m_bHorizontal, m_fProgress );
 }
 
-float ProgressBar::GetCycleSpeed()
+float ProgressBar::GetCycleSpeed()const
 {
 	return m_fCycleSpeed;
 }

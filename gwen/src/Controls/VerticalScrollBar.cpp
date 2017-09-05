@@ -70,7 +70,7 @@ void VerticalScrollBar::NudgeDown( Base* /*control*/ )
 	{ SetScrolledAmount( GetScrolledAmount() + GetNudgeAmount(), true ); }
 }
 
-float VerticalScrollBar::GetNudgeAmount()
+float VerticalScrollBar::GetNudgeAmount() const
 {
 	if ( m_bDepressed )
 	{ return m_fViewableContentSize / m_fContentSize; }

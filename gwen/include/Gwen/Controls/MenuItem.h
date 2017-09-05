@@ -46,7 +46,7 @@ namespace Gwen
 
 				virtual void SetCheckable( bool bCheck ) { m_bCheckable = bCheck; }
 				virtual void SetChecked( bool bCheck );
-				virtual bool GetChecked() { return m_bChecked; }
+				virtual bool GetChecked() const { return m_bChecked; }
 
 				template <typename T>
 				MenuItem* SetAction( Gwen::Event::Handler* pHandler, T fn )

@@ -34,7 +34,7 @@ namespace Gwen
 				virtual void SizeToContents();
 
 				virtual void SetAlignment( int iAlign );
-				virtual int GetAlignment();
+				virtual int GetAlignment()const ;
 
 
 				virtual void SetFont( Gwen::UnicodeString strFacename, int iSize, bool bBold );
@@ -52,10 +52,10 @@ namespace Gwen
 				virtual int TextY() { return m_Text->Y(); }
 				virtual int TextLength() { return m_Text->Length(); }
 
-				Gwen::Rect GetCharacterPosition( int iChar );
+				Gwen::Rect GetCharacterPosition( int iChar )const ;
 
 				virtual void SetTextPadding( const Padding & padding ) { m_Text->SetPadding( padding ); Invalidate(); InvalidateParent(); }
-				virtual const Padding & GetTextPadding() { return m_Text->GetPadding(); }
+				virtual const Padding & GetTextPadding() const { return m_Text->GetPadding(); }
 
 				inline int Alignment() const { return m_iAlign; }
 
@@ -64,7 +64,7 @@ namespace Gwen
 				virtual void MakeColorDark() { SetTextColor( GetSkin()->Colors.Label.Dark ); }
 				virtual void MakeColorHighlight() { SetTextColor( GetSkin()->Colors.Label.Highlight ); }
 
-				virtual TextObject GetValue() { return GetText(); }
+				virtual TextObject GetValue() const { return GetText(); }
 				virtual void SetValue( const TextObject & strValue ) { return SetText( strValue ); }
 
 				virtual bool Wrap() { return m_Text->Wrap(); }

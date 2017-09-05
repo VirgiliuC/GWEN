@@ -141,7 +141,7 @@ void HSVColorPicker::SetColor( Gwen::Color color, bool onlyHue, bool reset )
 	m_After->SetColor( color );
 }
 
-Gwen::Color HSVColorPicker::GetColor()
+Gwen::Color HSVColorPicker::GetColor()const
 {
 	return m_LerpBox->GetSelectedColor();
 }

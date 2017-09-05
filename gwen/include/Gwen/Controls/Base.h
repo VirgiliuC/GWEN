@@ -217,7 +217,7 @@ namespace Gwen
 				virtual void OnKeyboardFocus() {}
 
 				virtual void SetMouseInputEnabled( bool b )	{ m_bMouseInputEnabled = b; }
-				virtual bool GetMouseInputEnabled()	{ return m_bMouseInputEnabled; }
+				virtual bool GetMouseInputEnabled()	const { return m_bMouseInputEnabled; }
 
 				virtual void SetKeyboardInputEnabled( bool b ) { m_bKeyboardInputEnabled = b; }
 				virtual bool GetKeyboardInputEnabled() const { return m_bKeyboardInputEnabled; }
@@ -270,6 +270,7 @@ namespace Gwen
 				virtual bool ShouldCacheToTexture() { return m_bCacheToTexture; }
 
 				virtual void SetCursor( unsigned char c ) { m_Cursor = c; }
+				virtual unsigned char GetCursor() const { return m_Cursor; }
 				virtual void UpdateCursor();
 
 				virtual Gwen::Point GetMinimumSize() const  { return Gwen::Point( 1, 1 ); }
@@ -494,13 +495,13 @@ namespace Gwen
 			public:
 
 				virtual TextObject GetChildValue( const Gwen::String & strName );
-				virtual TextObject GetValue();
+				virtual TextObject GetValue()const ;
 				virtual void SetValue( const TextObject & strValue );
 				virtual void DoAction() {};
 				virtual void SetAction( Event::Handler* pObject, Handler::FunctionWithInformation pFunction, const Gwen::Event::Packet & packet ) {};
 
-				virtual int GetNamedChildren( Gwen::ControlList & list, const Gwen::String & strName, bool bDeep = true );
-				virtual Gwen::ControlList GetNamedChildren( const Gwen::String & strName, bool bDeep = true );
+				virtual int GetNamedChildren( Gwen::ControlList & list, const Gwen::String & strName, bool bDeep = true )const ;
+				virtual Gwen::ControlList GetNamedChildren( const Gwen::String & strName, bool bDeep = true )const ;
 
 			public:
 
@@ -581,8 +582,8 @@ T* Gwen::Controls::Base::FindChild( const Gwen::String & name, bool bRecursive )
 	public:\
 	GWEN_CLASS( ThisName, BaseName )\
 	GWEN_DYNAMIC( ThisName, BaseName )\
-	virtual const char* GetTypeName(){ return #ThisName; }\
-	virtual const char* GetBaseTypeName(){ return BaseClass::GetTypeName(); }\
+	virtual const char* GetTypeName()const { return #ThisName; }\
+	virtual const char* GetBaseTypeName()const { return BaseClass::GetTypeName(); }\
 	ThisName( Gwen::Controls::Base* pParent, const Gwen::String& pName = "" )
 
 #define GWEN_CONTROL_INLINE( ThisName, BaseName )\

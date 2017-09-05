@@ -19,6 +19,7 @@ namespace Gwen
 	{
 		class GWEN_EXPORT TextBox : public Label
 		{
+		    public:
 				GWEN_CONTROL( TextBox, Label );
 
 				virtual void Render( Skin::Base* skin );
@@ -55,8 +56,8 @@ namespace Gwen
 				virtual void OnMouseDoubleClickLeft( int x, int y );
 
 				virtual void EraseSelection();
-				virtual bool HasSelection();
-				virtual UnicodeString GetSelection();
+				virtual bool HasSelection() const;
+				virtual UnicodeString GetSelection()const ;
 
 				virtual void SetCursorPos( int i );
 				virtual void SetCursorEnd( int i );
@@ -105,7 +106,7 @@ namespace Gwen
 
 				GWEN_CONTROL( TextBoxNumeric, TextBox );
 
-				virtual float GetFloatFromText();
+				virtual float GetFloatFromText()const ;
 
 			private:
 

@@ -24,7 +24,7 @@ namespace Gwen
 				virtual Gwen::String			Name() = 0;
 				virtual Gwen::String			Description() = 0;
 
-				virtual Gwen::UnicodeString		GetValue( Gwen::Controls::Base* ctrl ) = 0;
+				virtual Gwen::UnicodeString		GetValue( Gwen::Controls::Base* ctrl ) const = 0;
 				virtual void					SetValue( Gwen::Controls::Base* ctrl, const Gwen::UnicodeString & str ) = 0;
 
 				virtual int						OptionNum() { return 0; }
@@ -91,7 +91,7 @@ namespace Gwen
 				// these functions are used to store which page they're on - on the child control
 				//
 				virtual void SetParentPage( Gwen::Controls::Base* ctrl, int i );
-				virtual int GetParentPage( Gwen::Controls::Base* ctrl );
+				virtual int GetParentPage( Gwen::Controls::Base* ctrl )const ;
 
 			protected:
 

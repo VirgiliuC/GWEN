@@ -46,7 +46,7 @@ void Label::SetAlignment( int iAlign )
 	Invalidate();
 }
 
-int Label::GetAlignment()
+int Label::GetAlignment()const
 {
 	return m_iAlign;
 }
@@ -69,7 +69,7 @@ void Label::SizeToContents()
 	SetSize( m_Text->Width() + m_Padding.left + m_Padding.right, m_Text->Height() + m_Padding.top + m_Padding.bottom );
 }
 
-Gwen::Rect Label::GetCharacterPosition( int iChar )
+Gwen::Rect Label::GetCharacterPosition( int iChar )const
 {
 	Gwen::Rect p = m_Text->GetCharacterPosition( iChar );
 	p.x += m_Text->X();

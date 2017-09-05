@@ -29,7 +29,7 @@ namespace Gwen
 						m_TextBox->onTextChanged.Add( this, &BaseClass::OnPropertyValueChanged );
 					}
 
-					virtual TextObject GetPropertyValue()
+					virtual TextObject GetPropertyValue()const
 					{
 						return m_TextBox->GetText();
 					}

@@ -24,8 +24,8 @@ namespace Gwen
 			public:
 				GWEN_CONTROL( HSVColorPicker, Controls::Base );
 
-				Gwen::Color GetColor();
-				Gwen::Color GetDefaultColor() { return m_Before->GetColor(); }
+				Gwen::Color GetColor()const ;
+				Gwen::Color GetDefaultColor() const { return m_Before->GetColor(); }
 				void SetColor( Gwen::Color color, bool onlyHue = false, bool reset = false );
 
 				void ColorBoxChanged( Gwen::Controls::Base* pControl );

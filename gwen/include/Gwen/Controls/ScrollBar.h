@@ -33,8 +33,8 @@ namespace Gwen
 				virtual void Render( Skin::Base* skin );
 
 				virtual void SetBarSize( int size ) = 0;
-				virtual int GetBarSize() = 0;
-				virtual int GetBarPos() = 0;
+				virtual int GetBarSize()const  = 0;
+				virtual int GetBarPos() const = 0;
 
 				virtual void OnBarMoved( Controls::Base* control );
 				virtual void OnMouseClickLeft( int /*x*/, int /*y*/, bool /*bDown*/ ) {}
@@ -44,7 +44,7 @@ namespace Gwen
 				virtual void ScrollToTop() {}
 				virtual void ScrollToBottom() {}
 
-				virtual float GetNudgeAmount() { return m_fNudgeAmount / m_fContentSize; }
+				virtual float GetNudgeAmount() const { return m_fNudgeAmount / m_fContentSize; }
 				virtual void SetNudgeAmount( float nudge ) { m_fNudgeAmount = nudge; }
 
 				virtual void BarMovedNotification();
@@ -56,8 +56,8 @@ namespace Gwen
 				virtual void SetContentSize( float size );
 				virtual void SetViewableContentSize( float size );
 
-				virtual int GetButtonSize() { return 0; }
-				virtual float GetScrolledAmount() { return m_fScrolledAmount; }
+				virtual int GetButtonSize() const { return 0; }
+				virtual float GetScrolledAmount() const { return m_fScrolledAmount; }
 
 				virtual bool IsHorizontal() { return false; }
 

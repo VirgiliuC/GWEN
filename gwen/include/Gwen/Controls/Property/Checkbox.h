@@ -32,7 +32,7 @@ namespace Gwen
 						SetHeight( 18 );
 					}
 
-					virtual TextObject GetPropertyValue()
+					virtual TextObject GetPropertyValue()const
 					{
 						return m_Checkbox->IsChecked() ? L"1" : L"0";
 					}

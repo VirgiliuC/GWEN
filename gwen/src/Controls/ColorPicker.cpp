@@ -171,7 +171,7 @@ int ColorPicker::GetColorByName( Gwen::String colorName )
 	{ return 0; }
 }
 
-Gwen::String ColorPicker::GetColorFromName( Gwen::String name )
+Gwen::String ColorPicker::GetColorFromName( Gwen::String name )const
 {
 	if ( name.find( "Red" ) != Gwen::String::npos )
 	{ return "Red"; }

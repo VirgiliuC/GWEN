@@ -29,7 +29,7 @@ namespace Gwen
 						SetHeight( 17 );
 					}
 
-					virtual TextObject GetPropertyValue() = 0;
+					virtual TextObject GetPropertyValue() const = 0;
 
 					virtual void SetPropertyValue( const TextObject & v, bool bFireChangeEvents = false ) = 0;
 

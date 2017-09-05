@@ -17,15 +17,16 @@ namespace Gwen
 	{
 		class GWEN_EXPORT PageControl : public Base
 		{
+		    public:
 				static const unsigned int MaxPages = 64;
 
 				GWEN_CONTROL( PageControl, Base );
 
 				virtual void SetPageCount( unsigned int i );
-				virtual unsigned int GetPageCount() { return m_iPages; }
+				virtual unsigned int GetPageCount() const { return m_iPages; }
 
 				virtual void ShowPage( unsigned int i );
-				virtual unsigned int GetPageNumber() { return m_iCurrentPage; }
+				virtual unsigned int GetPageNumber() const { return m_iCurrentPage; }
 				virtual Controls::Base* GetPage( unsigned int i );
 				virtual Controls::Base* GetCurrentPage();
 
@@ -39,7 +40,7 @@ namespace Gwen
 				Controls::Label* Label() { return m_Label; }
 
 				void SetUseFinishButton( bool b ) { m_bFinish = b; }
-				bool GetUseFinishButton() { return m_bFinish; }
+				bool GetUseFinishButton() const { return m_bFinish; }
 
 				Event::Caller	onPageChanged;
 				Event::Caller	onFinish;

@@ -33,7 +33,7 @@ namespace Gwen
 				}
 
 				virtual void SetColor( Gwen::Color color ) { m_Color = color; }
-				virtual Gwen::Color GetColor() { return m_Color; }
+				virtual Gwen::Color GetColor() const { return m_Color; }
 
 				virtual void SetRed( int red )  	{ m_Color.r = red;	}
 				virtual void SetGreen( int green )	{ m_Color.g = green;}
@@ -65,11 +65,11 @@ namespace Gwen
 				virtual void CreateColorControl( Gwen::String name, int y );
 
 				virtual void SetColor( Gwen::Color color );
-				virtual Gwen::Color GetColor() { return m_Color; }
+				virtual Gwen::Color GetColor() const { return m_Color; }
 
 				int GetColorByName( Gwen::String colorName );
 				void SetColorByName( Gwen::String colorName, int colorValue );
-				Gwen::String GetColorFromName( Gwen::String name );
+				Gwen::String GetColorFromName( Gwen::String name )const ;
 				virtual void SetAlphaVisible( bool visible );
 
 				virtual void SetRed( int red )  	{ m_Color.r = red;	}

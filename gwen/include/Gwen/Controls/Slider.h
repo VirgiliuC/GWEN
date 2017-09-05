@@ -45,10 +45,10 @@ namespace Gwen
 				virtual void SetClampToNotches( bool bClamp ) { m_bClampToNotches = bClamp; }
 
 				virtual void SetNotchCount( int num ) { m_iNumNotches = num; }
-				virtual int GetNotchCount() { return m_iNumNotches; }
+				virtual int GetNotchCount() const { return m_iNumNotches; }
 
 				virtual void SetRange( float fMin, float fMax );
-				virtual float GetFloatValue();
+				virtual float GetFloatValue()const ;
 				virtual void SetFloatValue( float val, bool forceUpdate = true );
 
 				virtual float CalculateValue();
@@ -65,8 +65,8 @@ namespace Gwen
 
 				Gwen::Event::Caller	onValueChanged;
 
-				virtual float GetMin() { return m_fMin; }
-				virtual float GetMax() { return m_fMax; }
+				virtual float GetMin() const { return m_fMin; }
+				virtual float GetMax() const { return m_fMax; }
 
 			protected:
 

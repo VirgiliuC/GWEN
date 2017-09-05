@@ -28,7 +28,7 @@ namespace Gwen
 				virtual TreeNode* AddNode( const TextObject & strLabel );
 
 				virtual void SetText( const TextObject & text );
-				virtual const TextObject & GetText();
+				virtual const TextObject & GetText()const ;
 				virtual void SetImage( const TextObject & text );
 
 				virtual void Open();

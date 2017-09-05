@@ -27,7 +27,7 @@ namespace Gwen
 
 				virtual void Render( Skin::Base* skin );
 
-				const Gwen::Color & GetColor() { return m_Color; }
+				const Gwen::Color & GetColor() const { return m_Color; }
 				void SetColor( const Gwen::Color & col ) { m_Color = col; }
 
 			protected:

@@ -29,10 +29,10 @@ namespace Gwen
 				GWEN_CONTROL( ResizableControl, Base );
 
 				virtual void SetClampMovement( bool shouldClamp ) { m_bClampMovement = shouldClamp; }
-				virtual bool GetClampMovement() { return m_bClampMovement; }
+				virtual bool GetClampMovement() const { return m_bClampMovement; }
 
 				virtual void SetMinimumSize( const Gwen::Point & minSize ) { m_MinimumSize = minSize; }
-				virtual Gwen::Point GetMinimumSize() { return m_MinimumSize; }
+				virtual Gwen::Point GetMinimumSize() const { return m_MinimumSize; }
 
 				virtual void DisableResizing();
 

@@ -30,21 +30,21 @@ namespace Gwen
 				virtual void OnMouseClickLeft( int x, int y, bool bDown );
 				virtual void OnBarMoved( Controls::Base* control );
 
-				virtual int GetBarSize() { return m_Bar->Width(); }
-				virtual int GetBarPos() { return m_Bar->X() - Height(); }
+				virtual int GetBarSize() const { return m_Bar->Width(); }
+				virtual int GetBarPos() const { return m_Bar->X() - Height(); }
 				virtual void SetBarSize( int size ) { m_Bar->SetWidth( size ); }
-				virtual int GetButtonSize() { return Height(); }
+				virtual int GetButtonSize()const  { return Height(); }
 
 				virtual void ScrollToLeft();
 				virtual void ScrollToRight();
 				virtual void NudgeLeft( Base* control );
 				virtual void NudgeRight( Base* control );
-				virtual float GetNudgeAmount();
+				virtual float GetNudgeAmount()const ;
 
 				virtual float CalculateScrolledAmount();
 				virtual bool SetScrolledAmount( float amount, bool forceUpdate );
 
-				virtual bool IsHorizontal() { return true; }
+				virtual bool IsHorizontal() const { return true; }
 		};
 	}
 }

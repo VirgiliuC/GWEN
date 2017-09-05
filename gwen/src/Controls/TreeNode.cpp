@@ -141,7 +141,7 @@ void TreeNode::SetText( const TextObject & text )
 	m_Title->SetText( text );
 }
 
-const TextObject & TreeNode::GetText()
+const TextObject & TreeNode::GetText() const
 {
 	return m_Title->GetText();
 }

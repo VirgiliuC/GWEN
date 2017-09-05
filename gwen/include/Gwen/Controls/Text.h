@@ -40,7 +40,7 @@ namespace Gwen
 
 				/// return the encapsulating box of the given line
 				// @remark this function is necessary to implement multiline selection
-				virtual Gwen::Rect GetLineBox( int i ); 
+				virtual Gwen::Rect GetLineBox( int i );
 
 				int Length() const { return ( int ) m_String.GetUnicode().size(); }
 
@@ -52,22 +52,24 @@ namespace Gwen
 				inline const Gwen::Color & TextColor() const { return m_Color; }
 
 				virtual void TextChanged() { m_bTextChanged = true; }
-				virtual bool Wrap() { return m_bWrap; }
+				virtual bool Wrap() const { return m_bWrap; }
 				virtual void SetWrap( bool b ) { if ( m_bWrap == b ) { return; } m_bWrap = b; m_bTextChanged = true; Invalidate(); }
 
 				virtual Text* GetLine( int i );
-				virtual int GetLineFromChar( int i );
-				virtual int GetStartCharFromLine( int i );
-				virtual int GetEndCharFromLine( int i );
-				virtual int GetCharPosOnLine( int i );
-				virtual int NumLines();
+				virtual
+				const   Text* GetLine( int i ) const;
+				virtual int GetLineFromChar( int i )const ;
+				virtual int GetStartCharFromLine( int i )const ;
+				virtual int GetEndCharFromLine( int i )const ;
+				virtual int GetCharPosOnLine( int i )const ;
+				virtual int NumLines()const ;
 
 
 			protected:
 
 				virtual void SplitWords(const Gwen::UnicodeString &s, std::vector<Gwen::UnicodeString> &elems);
-			
-			private: 
+
+			private:
 
 				virtual void RefreshSizeWrap();
 

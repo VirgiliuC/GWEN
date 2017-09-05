@@ -159,7 +159,7 @@ Gwen::Color LerpColor( Gwen::Color & toColor, Gwen::Color & fromColor, float amo
 	return newColor;
 }
 
-Gwen::Color ColorLerpBox::GetSelectedColor()
+Gwen::Color ColorLerpBox::GetSelectedColor()const
 {
 	return GetColorAtPos( cursorPos.x, cursorPos.y );
 }
@@ -213,7 +213,7 @@ void ColorLerpBox::OnMouseClickLeft( int x, int y, bool bDown )
 	OnMouseMoved( x, y, 0, 0 );
 }
 
-Gwen::Color ColorLerpBox::GetColorAtPos( int x, int y )
+Gwen::Color ColorLerpBox::GetColorAtPos( int x, int y )const
 {
 	float xPercent = ( ( float ) x / ( float ) Width() );
 	float yPercent = 1 - ( ( float ) y / ( float ) Height() );
@@ -294,7 +294,7 @@ void ColorSlider::OnMouseClickLeft( int x, int y, bool bDown )
 	OnMouseMoved( x, y, 0, 0 );
 }
 
-Gwen::Color ColorSlider::GetColorAtHeight( int y )
+Gwen::Color ColorSlider::GetColorAtHeight( int y )const
 {
 	float yPercent = ( float ) y / ( float ) Height();
 	return HSVToColor( yPercent * 360, 1, 1 );
@@ -323,7 +323,7 @@ void ColorSlider::SetColor( Gwen::Color color )
 	onSelectionChanged.Call( this );
 }
 
-Gwen::Color ColorSlider::GetSelectedColor()
+Gwen::Color ColorSlider::GetSelectedColor() const
 {
 	return GetColorAtHeight( m_iSelectedDist );
 }

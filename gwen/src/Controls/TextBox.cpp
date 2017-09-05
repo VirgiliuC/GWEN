@@ -42,7 +42,7 @@ GWEN_CONTROL_CONSTRUCTOR( TextBox )
 	m_iCursorLine = 0;
     m_bEditable = true;
 	m_bSelectAll = false;
-	SetTextColor( Gwen::Color( 50, 50, 50, 255 ) );   // TODO: From Skin
+	SetTextColor( GetSkin()->Colors.Text);//VC//Gwen::Color( 50, 50, 50, 255 ) );   // TODO: From Skin
 	SetTabable( true );
 	AddAccelerator( L"Ctrl + C", &TextBox::OnCopy );
 	AddAccelerator( L"Ctrl + X", &TextBox::OnCut );
@@ -125,7 +125,7 @@ void TextBox::Render( Skin::Base* skin )
 void TextBox::RefreshCursorBounds()
 {
 	m_fNextCaretColorChange = Gwen::Platform::GetTimeInSeconds() + 1.5f;
-	m_CaretColor = Gwen::Color( 30, 30, 30, 255 );
+	m_CaretColor = GetSkin()->Colors.Text;//VC //Gwen::Color( 30, 30, 30, 255 );
 	MakeCaratVisible();
 	Gwen::Rect pA = GetCharacterPosition( m_iCursorPos );
 	Gwen::Rect pB = GetCharacterPosition( m_iCursorEnd );
@@ -174,7 +174,7 @@ void TextBox::OnMouseDoubleClickLeft( int /*x*/, int /*y*/ )
 	OnSelectAll( this );
 }
 
-UnicodeString TextBox::GetSelection()
+UnicodeString TextBox::GetSelection() const
 {
 	if ( !HasSelection() ) { return L""; }
 
@@ -329,7 +329,7 @@ void TextBox::DeleteText( int iStartPos, int iLength )
 	SetCursorEnd( m_iCursorPos );
 }
 
-bool TextBox::HasSelection()
+bool TextBox::HasSelection() const
 {
 	return m_iCursorPos != m_iCursorEnd;
 }

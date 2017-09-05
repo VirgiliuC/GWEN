@@ -81,7 +81,7 @@ void Slider::SetValueInternal( float val )
 	UpdateBarFromValue();
 }
 
-float Slider::GetFloatValue()
+float Slider::GetFloatValue()const
 {
 	return m_fMin + ( m_fValue * ( m_fMax - m_fMin ) );
 }
