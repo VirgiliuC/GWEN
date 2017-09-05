@@ -328,6 +328,7 @@ namespace Gwen
 					Colors.Properties.Label_Selected	= GetRender()->PixelColour( &m_Texture, 4 + 8 * 17, 508, Color( 255, 255, 0 ) );
 					Colors.Properties.Label_Hover		= GetRender()->PixelColour( &m_Texture, 4 + 8 * 16, 500, Color( 255, 255, 0 ) );
 					Colors.ModalBackground				= GetRender()->PixelColour( &m_Texture, 4 + 8 * 18, 508, Color( 255, 255, 0 ) );
+					Colors.Text = Colors.Properties.Label_Normal;//VC
 					Colors.TooltipText					= GetRender()->PixelColour( &m_Texture, 4 + 8 * 19, 508, Color( 255, 255, 0 ) );
 					Colors.Category.Header				= GetRender()->PixelColour( &m_Texture, 4 + 8 * 18, 500, Color( 255, 255, 0 ) );
 					Colors.Category.Header_Closed		= GetRender()->PixelColour( &m_Texture, 4 + 8 * 19, 500, Color( 255, 255, 0 ) );
@@ -568,13 +569,14 @@ namespace Gwen
 
 				virtual void DrawActiveTabButton( Gwen::Controls::Base* control, int dir )
 				{
-					if ( dir == Pos::Bottom )	{ return Textures.Tab.Bottom.Active.Draw( GetRender(), control->GetRenderBounds() + Rect( 0, -8, 0, 8 ) ); }
+				    const int m = 4;//expand to merge with the active page (hidding the border)
+					if ( dir == Pos::Bottom )	{ return Textures.Tab.Bottom.Active.Draw( GetRender(), control->GetRenderBounds() + Rect( 0, -m, 0, m ) ); }
 
-					if ( dir == Pos::Top )		{ return Textures.Tab.Top.Active.Draw( GetRender(), control->GetRenderBounds() + Rect( 0, 0, 0, 8 ) ); }
+					if ( dir == Pos::Top )		{ return Textures.Tab.Top.Active.Draw( GetRender(), control->GetRenderBounds() + Rect( 0, 0, 0, m ) ); }
 
-					if ( dir == Pos::Left )		{ return Textures.Tab.Left.Active.Draw( GetRender(), control->GetRenderBounds() + Rect( 0, 0, 8, 0 ) ); }
+					if ( dir == Pos::Left )		{ return Textures.Tab.Left.Active.Draw( GetRender(), control->GetRenderBounds() + Rect( 0, 0, m, 0 ) ); }
 
-					if ( dir == Pos::Right )	{ return Textures.Tab.Right.Active.Draw( GetRender(), control->GetRenderBounds() + Rect( -8, 0, 8, 0 ) ); }
+					if ( dir == Pos::Right )	{ return Textures.Tab.Right.Active.Draw( GetRender(), control->GetRenderBounds() + Rect( -m, 0, m, 0 ) ); }
 				}
 
 				virtual void DrawTabButton( Gwen::Controls::Base* control, bool bActive, int dir )
