@@ -11,10 +11,27 @@
 #include "Gwen/Controls/PageControl.h"
 #include "Gwen/Controls.h"
 
+#include <cstdio>
+
 using namespace Gwen;
 using namespace Gwen::Controls;
+//////////////////////////////////////////////////////////////////////////////////////
+//VC - Animation X class that restors the filled docking of the animated page
+class PgCtrlAnimX : public Anim::Pos::X
+{
+    public:
+    PgCtrlAnimX( int iStartSize, int iEndSize,
+                 float fLength, bool bHide = false,
+                 float fDelay = 0.0f, float fEase = 1.0f )
+                 : Anim::Pos::X( iStartSize, iEndSize,fLength, bHide, fDelay, fEase )
+                 {
+
+                 }
+    virtual void OnFinish() {Anim::Pos::X::OnFinish(); m_Control->Dock( Pos::Fill );}
+};
 
 
+//////////////////////////////////////////////////////////////////////////////////////
 GWEN_CONTROL_CONSTRUCTOR( PageControl )
 {
 	m_iPages = 0;
@@ -97,7 +114,10 @@ void PageControl::ShowPage( unsigned int i )
 	m_iCurrentPage = i;
 	m_Back->SetDisabled( m_iCurrentPage == 0 );
 	m_Next->SetDisabled( m_iCurrentPage >= m_iPages );
-	m_Label->SetText( Utility::Format( L"Page %i of %i", m_iCurrentPage + 1, m_iPages ) );
+//	m_Label->SetText( Utility::Format( "Page %i of %i", m_iCurrentPage + 1, m_iPages ) );//original
+    char cpage[64];//VC
+    sprintf(cpage,"Page %i of %i", m_iCurrentPage + 1, m_iPages  );
+    m_Label->SetText(cpage);
 
 	if ( GetUseFinishButton() )
 	{
@@ -131,7 +151,7 @@ void PageControl::NextPage()
 	if ( m_pPages[m_iCurrentPage] )
 	{
 		m_pPages[m_iCurrentPage]->Dock( Pos::None );
-		Anim::Add( m_pPages[m_iCurrentPage], new Anim::Pos::X( m_pPages[m_iCurrentPage]->X(), Width() * -1, 0.2f, true, 0.0f, -1 ) );
+		Anim::Add( m_pPages[m_iCurrentPage], new PgCtrlAnimX( m_pPages[m_iCurrentPage]->X(), Width() * -1, 0.2f, true, 0.0f, -1 ) );
 	}
 
 	ShowPage( m_iCurrentPage + 1 );
@@ -139,7 +159,7 @@ void PageControl::NextPage()
 	if ( m_pPages[m_iCurrentPage] )
 	{
 		m_pPages[m_iCurrentPage]->Dock( Pos::None );
-		Anim::Add( m_pPages[m_iCurrentPage], new Anim::Pos::X( Width(), 0, 0.2f, false, 0.0f, -1 ) );
+		Anim::Add( m_pPages[m_iCurrentPage], new PgCtrlAnimX( Width(), 0, 0.2f, false, 0.0f, -1 ) );
 	}
 }
 
@@ -150,7 +170,7 @@ void PageControl::PreviousPage()
 	if ( m_pPages[m_iCurrentPage] )
 	{
 		m_pPages[m_iCurrentPage]->Dock( Pos::None );
-		Anim::Add( m_pPages[m_iCurrentPage], new Anim::Pos::X( m_pPages[m_iCurrentPage]->X(), Width(), 0.3f, true, 0.0f, -1 ) );
+		Anim::Add( m_pPages[m_iCurrentPage], new PgCtrlAnimX( m_pPages[m_iCurrentPage]->X(), Width(), 0.3f, true, 0.0f, -1 ) );
 	}
 
 	ShowPage( m_iCurrentPage - 1 );
@@ -158,7 +178,7 @@ void PageControl::PreviousPage()
 	if ( m_pPages[m_iCurrentPage] )
 	{
 		m_pPages[m_iCurrentPage]->Dock( Pos::None );
-		Anim::Add( m_pPages[m_iCurrentPage], new Anim::Pos::X( Width() * -1, 0, 0.3f, false, 0.0f, -1 ) );
+		Anim::Add( m_pPages[m_iCurrentPage], new PgCtrlAnimX( Width() * -1, 0, 0.3f, false, 0.0f, -1 ) );
 	}
 }
 

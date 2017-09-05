@@ -22,33 +22,19 @@ namespace Gwen
 		{
 			public:
 
-				GWEN_CONTROL_INLINE( ImagePanel, Controls::Base )
-				{
-					SetUV( 0, 0, 1, 1 );
-					SetMouseInputEnabled( false );
-					m_DrawColor = Colors::White;
-					SetStretch( true );
-				}
+				GWEN_CONTROL( ImagePanel, Controls::Base );
 
-				virtual ~ImagePanel()
-				{
-					m_Texture.Release( GetSkin()->GetRender() );
-				}
+				virtual ~ImagePanel();
+				virtual void SetUV( float u1, float v1, float u2, float v2 );
 
-				virtual void SetUV( float u1, float v1, float u2, float v2 )
-				{
-					m_uv[0] = u1;
-					m_uv[1] = v1;
-					m_uv[2] = u2;
-					m_uv[3] = v2;
-				}
+				virtual void LocalToUV( const Gwen::Point &p, float &u, float &v);
+				virtual Gwen::Point UVToLocal(float u, float v);
 
 				virtual void SetImage( const TextObject & imageName )
 				{
 					m_Texture.Load( imageName, GetSkin()->GetRender() );
 				}
-                virtual void SetTexImage(const Texture & texobj,float u1, float v1, float u2, float v2)
-                                                    {m_Texture=texobj;};
+                virtual void SetTexImage(const Texture & texobj,float u1=0, float v1=0, float u2=1, float v2=1);
 
 				virtual int ImageWidth()    const   {return m_Texture.width*fabs(m_uv[2]-m_uv[0]);}
 
@@ -74,18 +60,15 @@ namespace Gwen
 					return m_Texture.name;
 				}
 
-				virtual void SizeToContents()
-				{
-					Dock(Pos::None);
-					SetSize( ImageWidth(), ImageHeight());
-				}
+				virtual void SizeToContents();
 
-				virtual void FitToParent()
-				{
-					if(GetParent())
-//                        SetSize(GetParent()->GetSize());
-                        Dock(Pos::Fill);
-				}
+				virtual void FitToParent();
+
+				virtual bool SetSize(int sw, int sh);
+
+				float   GetScaleX() const {return m_Scale[0];}
+				float   GetScaleY() const {return m_Scale[1];}
+
 
 				virtual void SetDrawColor( Gwen::Color color )
 				{
@@ -100,31 +83,14 @@ namespace Gwen
 				virtual bool GetStretch() const { return m_bStretch; }
 				virtual void SetStretch( bool b ) {m_bStretch = b;}
 
-				virtual void Layout( Skin::Base* skin )
-				{
-                    Controls::Base::Layout(skin);
-                    float w = Width(), h=Height();
-                    m_Scale = m_bStretch ? 1.0f : std::min(w/(float)ImageWidth(),h/(float)ImageHeight());
-				}
+				virtual void Layout( Skin::Base* skin );
 
-				virtual void Render( Skin::Base* skin )
-				{
-					skin->GetRender()->SetDrawColor( m_DrawColor );
-
-					if ( m_bStretch ){
-                        skin->GetRender()->DrawTexturedRect(&m_Texture, GetRenderBounds(),
-                                                            m_uv[0], m_uv[1], m_uv[2], m_uv[3] );
-                    }
-					else{
-                        skin->GetRender()->DrawTexturedRect(&m_Texture, Gwen::Rect( 0, 0,m_Scale*ImageWidth(), m_Scale*ImageHeight()),
-                                                            m_uv[0], m_uv[1], m_uv[2], m_uv[3] );
-                    }
-				}
+				virtual void Render( Skin::Base* skin );
 			protected:
 
 				Texture			m_Texture;
 				float			m_uv[4];
-				float           m_Scale;
+				float           m_Scale[2];
 				Gwen::Color		m_DrawColor;
 
 				bool			m_bStretch;
