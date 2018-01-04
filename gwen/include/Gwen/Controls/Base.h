@@ -262,7 +262,7 @@ namespace Gwen
 
 				//Other
 				virtual void SetDisabled( bool active ) { if ( m_bDisabled == active ) { return; } m_bDisabled = active; Redraw(); }
-				virtual bool IsDisabled() const { return m_bDisabled; }
+				virtual bool IsDisabled() const { return m_bDisabled or (GetParent() ? GetParent()->IsDisabled() : false); }
 
 				virtual void Redraw() { UpdateColours(); m_bCacheTextureDirty = true; if ( m_Parent ) { m_Parent->Redraw(); } }
 				virtual void UpdateColours() {};

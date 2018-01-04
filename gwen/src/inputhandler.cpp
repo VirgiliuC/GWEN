@@ -69,6 +69,7 @@ enum
 
 void UpdateHoveredControl( Controls::Base* pInCanvas )
 {
+	//allow disabled controls to receive mouse enter/leave events
 	Controls::Base* pHovered = pInCanvas->GetControlAt( MousePosition.x, MousePosition.y );
 
 	if ( pHovered != Gwen::HoveredControl )
@@ -101,13 +102,15 @@ void UpdateHoveredControl( Controls::Base* pInCanvas )
 	}
 }
 
+// TODO (Virgiliu#3#01/04/18): Find out more about this FindKeyboardFocus functionality
 bool FindKeyboardFocus( Controls::Base* pControl )
 {
 	if ( !pControl ) { return false; }
 
-	if ( pControl->GetKeyboardInputEnabled() )
+	if ( !pControl->IsDisabled() && pControl->GetKeyboardInputEnabled() )
 	{
-		//Make sure none of our children have keyboard focus first - todo recursive
+		//Make sure none of our children have keyboard focus first
+		//TODO recursive, not only the first layer
 		for ( Controls::Base::List::iterator iter = pControl->Children.begin(); iter != pControl->Children.end(); ++iter )
 		{
 			Controls::Base* pChild = *iter;
@@ -130,10 +133,10 @@ Gwen::Point Gwen::Input::GetMousePosition()
 
 void Gwen::Input::OnCanvasThink( Controls::Base* pControl )
 {
-	if ( Gwen::MouseFocus && !Gwen::MouseFocus->Visible() )
+	if ( Gwen::MouseFocus && (Gwen::MouseFocus->IsDisabled() || !Gwen::MouseFocus->Visible()) )
 	{ Gwen::MouseFocus = NULL; }
 
-	if ( Gwen::KeyboardFocus && ( !Gwen::KeyboardFocus->Visible() ||  !KeyboardFocus->GetKeyboardInputEnabled() ) )
+	if ( Gwen::KeyboardFocus && (Gwen::KeyboardFocus->IsDisabled() || !Gwen::KeyboardFocus->Visible() || !KeyboardFocus->GetKeyboardInputEnabled() ) )
 	{ Gwen::KeyboardFocus = NULL; }
 
 	if ( !KeyboardFocus ) { return; }
@@ -200,7 +203,9 @@ bool Gwen::Input::OnMouseClicked( Controls::Base* pCanvas, int iMouseButton, boo
 
 	if ( Gwen::HoveredControl->GetCanvas() != pCanvas ) { return false; }
 
-	if ( !Gwen::HoveredControl->Visible() ) { return false; }
+	if ( !Gwen::HoveredControl->Visible() ) { return false; }//no mouse clicks on hidden controls
+
+	if ( Gwen::HoveredControl->IsDisabled() ) { return false; }//no mouse clicks on disabled controls
 
 	if ( Gwen::HoveredControl == pCanvas ) { return false; }
 
@@ -238,6 +243,8 @@ bool Gwen::Input::OnMouseClicked( Controls::Base* pCanvas, int iMouseButton, boo
 	}
 
 	Gwen::HoveredControl->UpdateCursor();
+
+// TODO (Virgiliu#1#01/04/18): Should we notify the 'Touch' chain if the control is disabled?
 
 	// This tells the child it has been touched, which
 	// in turn tells its parents, who tell their parents.
@@ -297,10 +304,10 @@ bool Gwen::Input::HandleAccelerator( Controls::Base* pCanvas, Gwen::UnicodeChar 
 
 	//Debug::Msg("Accelerator string :%S\n", accelString.c_str());
 
-	if ( Gwen::KeyboardFocus && Gwen::KeyboardFocus->HandleAccelerator( accelString ) )
+	if ( Gwen::KeyboardFocus && !Gwen::KeyboardFocus->IsDisabled() && Gwen::KeyboardFocus->HandleAccelerator( accelString ) )
 	{ return true; }
 
-	if ( Gwen::MouseFocus && Gwen::MouseFocus->HandleAccelerator( accelString ) )
+	if ( Gwen::MouseFocus && !Gwen::MouseFocus->IsDisabled() && Gwen::MouseFocus->HandleAccelerator( accelString ) )
 	{ return true; }
 
 	if ( pCanvas->HandleAccelerator( accelString ) )
@@ -316,6 +323,8 @@ bool Gwen::Input::DoSpecialKeys( Controls::Base* pCanvas, Gwen::UnicodeChar chr 
 	if ( Gwen::KeyboardFocus->GetCanvas() != pCanvas ) { return false; }
 
 	if ( !Gwen::KeyboardFocus->Visible() ) { return false; }
+
+	if ( Gwen::KeyboardFocus->IsDisabled() ) { return false; }
 
 	if ( !Gwen::Input::IsControlDown() ) { return false; }
 
@@ -352,7 +361,7 @@ bool Gwen::Input::OnKeyEvent( Controls::Base* pCanvas, int iKey, bool bDown )
 
 	if ( pTarget && pTarget->GetCanvas() != pCanvas ) { pTarget = NULL; }
 
-	if ( pTarget && !pTarget->Visible() ) { pTarget = NULL; }
+	if ( pTarget && (pTarget->IsDisabled() || !pTarget->Visible()) ) { pTarget = NULL; }
 
 	if ( bDown )
 	{

@@ -161,7 +161,7 @@ void Canvas::ReleaseChildren()
 		delete pChild;
 	}
 }
-
+//////////////////////////////////////////// UI Inputs //////////////////////////////////////
 bool Canvas::InputMouseMoved( int x, int y, int deltaX, int deltaY )
 {
 	if ( Hidden() ) { return false; }
@@ -178,6 +178,8 @@ bool Canvas::InputMouseMoved( int x, int y, int deltaX, int deltaY )
 	if ( Gwen::HoveredControl == this ) { return false; }
 
 	if ( Gwen::HoveredControl->GetCanvas() != this ) { return false; }
+
+	if ( Gwen::HoveredControl->IsDisabled() ) { return false; }//no mouse moves on disabled controls
 
 	Gwen::HoveredControl->OnMouseMoved( x, y, deltaX, deltaY );
 	Gwen::HoveredControl->UpdateCursor();
@@ -220,6 +222,8 @@ bool Canvas::InputCharacter( Gwen::UnicodeChar chr )
 
 	if ( !Gwen::KeyboardFocus->Visible() ) { return false; }
 
+	if ( Gwen::KeyboardFocus->IsDisabled() ) { return false; }//no char events on disabled controls
+
 	if ( Gwen::Input::IsControlDown() ) { return false; }
 
 	return KeyboardFocus->OnChar( chr );
@@ -234,6 +238,8 @@ bool Canvas::InputMouseWheel( int val )
 	if ( Gwen::HoveredControl == this ) { return false; }
 
 	if ( Gwen::HoveredControl->GetCanvas() != this ) { return false; }
+
+	if ( Gwen::HoveredControl->IsDisabled() ) { return false; }//no mouse wheel on disabled controls
 
 	return Gwen::HoveredControl->OnMouseWheeled( val );
 }
