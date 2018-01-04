@@ -65,27 +65,35 @@ float Gwen::Platform::GetTimeInSeconds()
 	return al_get_time();
 }
 
-bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath,
-							   const String & Extension, Gwen::Event::Handler* pHandler,
+bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath,const String & Extension,
+                               List & sqFileName,
+                               bool MultiSelect,
+							   Gwen::Event::Handler* pHandler,
 							   Event::Handler::FunctionWithInformation fnCallback )
 {
+	int mode = ALLEGRO_FILECHOOSER_FILE_MUST_EXIST;
+	if(MultiSelect)
+        mode = mode | ALLEGRO_FILECHOOSER_MULTIPLE;
 	ALLEGRO_FILECHOOSER* chooser = al_create_native_file_dialog( StartPath.c_str(),
 																 Name.c_str(),
 																 "*.*", // Extension.c_str(),
-																 ALLEGRO_FILECHOOSER_FILE_MUST_EXIST );
+																 mode );
 
 	if ( al_show_native_file_dialog( g_display, chooser ) )
 	{
-		if ( al_get_native_file_dialog_count( chooser ) != 0 )
+		int fcount = al_get_native_file_dialog_count( chooser );
+		for (int iFile=0; iFile < fcount; iFile++ )
 		{
+			sqFileName.resize(fcount);
 			if ( pHandler && fnCallback )
 			{
 				Gwen::Event::Information info;
 				info.Control		= NULL;
 				info.ControlCaller	= NULL;
-				info.String			= al_get_native_file_dialog_path( chooser, 0 );
+				info.String			= al_get_native_file_dialog_path( chooser, iFile );
 				( pHandler->*fnCallback )( info );
 			}
+			sqFileName[iFile] = al_get_native_file_dialog_path( chooser, 0 );
 		}
 	}
 
@@ -93,8 +101,9 @@ bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath,
 	return true;
 }
 
-bool Gwen::Platform::FileSave( const String & Name, const String & StartPath,
-							   const String & Extension, Gwen::Event::Handler* pHandler,
+bool Gwen::Platform::FileSave( const String & Name, const String & StartPath,const String & Extension,
+							   String & FileName,
+							   Gwen::Event::Handler* pHandler,
 							   Gwen::Event::Handler::FunctionWithInformation fnCallback )
 {
 	ALLEGRO_FILECHOOSER* chooser = al_create_native_file_dialog( StartPath.c_str(),
@@ -114,6 +123,7 @@ bool Gwen::Platform::FileSave( const String & Name, const String & StartPath,
 				info.String			= al_get_native_file_dialog_path( chooser, 0 );
 				( pHandler->*fnCallback )( info );
 			}
+			FileName = al_get_native_file_dialog_path( chooser, 0 );
 		}
 	}
 

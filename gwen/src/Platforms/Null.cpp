@@ -40,14 +40,18 @@ float Gwen::Platform::GetTimeInSeconds()
 	return fSeconds;
 }
 
-bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler, Event::Handler::FunctionWithInformation fnCallback )
+bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath, const String & Extension,
+                              List & sqFileName,
+                              Gwen::Event::Handler* pHandler, Event::Handler::FunctionWithInformation fnCallback )
 {
 	// No platform independent way to do this.
 	// Ideally you would open a system dialog here
 	return false;
 }
 
-bool Gwen::Platform::FileSave( const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler, Gwen::Event::Handler::FunctionWithInformation fnCallback )
+bool Gwen::Platform::FileSave( const String & Name, const String & StartPath, const String & Extension,
+                              String & FileName,
+                              Gwen::Event::Handler* pHandler, Gwen::Event::Handler::FunctionWithInformation fnCallback )
 {
 	// No platform independent way to do this.
 	// Ideally you would open a system dialog here

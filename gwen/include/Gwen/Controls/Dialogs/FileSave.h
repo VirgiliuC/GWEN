@@ -10,7 +10,7 @@ namespace Gwen
 	{
 		// Usage:
 		//
-		// Gwen::Dialogs::FileOpen( true, "Open Map", "C:\my\folder\", "My Map Format|*.bmf", this, &MyClass::OpenFilename );
+		// Gwen::Dialogs::FileSave( true, "Open Map", "C:\my\folder\", "My Map Format|*.bmf", FileName,this, &MyClass::OpenFilename );
 		//
 
 		//
@@ -23,15 +23,19 @@ namespace Gwen
 		// If bUseSystem is used, it may use the system's modal dialog - which
 		// will steal focus and pause the rest of GWEN until it's continued.
 		//
-		void GWEN_EXPORT FileSaveEx( bool bUseSystem, const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler = NULL, Gwen::Event::Handler::FunctionWithInformation fnCallback = NULL );
+		void GWEN_EXPORT FileSaveEx(bool bUseSystem,
+                                    const String & Name, const String & StartPath, const String & Extension,
+                                    String & FileName, Gwen::Event::Handler* pHandler = NULL, Gwen::Event::Handler::FunctionWithInformation fnCallback = NULL );
 
 		//
 		// Templated function simply to avoid having to manually cast the callback function.
 		//
 		template< typename A>
-		void FileSave( bool bUseSystem, const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler = NULL, A fnCallback = NULL )
+		void FileSave(bool bUseSystem,
+                      const String & Name, const String & StartPath, const String & Extension,
+                      String & FileName, Gwen::Event::Handler* pHandler = NULL, A fnCallback = NULL )
 		{
-			FileSaveEx( bUseSystem, Name, StartPath, Extension, pHandler, static_cast<Gwen::Event::Handler::FunctionWithInformation>( fnCallback ) );
+			FileSaveEx( bUseSystem, Name, StartPath, Extension, FileName, pHandler, static_cast<Gwen::Event::Handler::FunctionWithInformation>( fnCallback ) );
 		}
 
 

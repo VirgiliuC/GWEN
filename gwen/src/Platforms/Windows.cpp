@@ -20,8 +20,8 @@
 #include "Gwen/Input/Windows.h"
 
 #include <windows.h>
-//#include <ShlObj.h>
-//#include <Shobjidl.h>
+#include <ShlObj.h>
+#include <Shobjidl.h>
 
 using namespace Gwen;
 using namespace Gwen::Platform;
@@ -133,10 +133,15 @@ float Gwen::Platform::GetTimeInSeconds()
 
 
 
-bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler, Event::Handler::FunctionWithInformation fnCallback )
+bool Gwen::Platform::FileOpen(const String & Name,
+                              const String & StartPath,
+                              const String & Extension,
+                              List & sqFileName,
+                              bool MultiSelect,
+                              Gwen::Event::Handler* pHandler,
+                              Event::Handler::FunctionWithInformation fnCallback )
 {
 	char Filestring[FileStringSize];
-	String returnstring;
 
 	char FilterBuffer[FilterBufferSize];
 	{
@@ -169,16 +174,34 @@ bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath, co
 	opf.lCustData = 0;
 	opf.Flags = ( OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR ) & ~OFN_ALLOWMULTISELECT;
 	opf.lStructSize = sizeof( OPENFILENAME );
+	if(MultiSelect)
+        opf.Flags = opf.Flags | OFN_ALLOWMULTISELECT | OFN_EXPLORER;
 
 	if ( GetOpenFileNameA( &opf ) )
 	{
+        sqFileName.clear();
+        if(MultiSelect){//decode the Windows multi-select string pattern
+            //in Explorer-type FileOpen, the folder path and all filenames are separated by '\0', with a double '\0' at the end
+            auto *p = opf.lpstrFile;
+            std::string fpath(p);//the file path
+            p = strchr(p, '\0')+1;//beginning of first fname
+            while (*p) {
+                sqFileName.push_back(fpath+"\\"+std::string(p));
+                p = strchr(p, '\0')+1;//go past the substring end
+            }
+        }
+        if(sqFileName.empty())//only one file selected, no matter the selection flag
+            sqFileName.push_back(opf.lpstrFile);
+
 		if ( pHandler && fnCallback )
 		{
 			Gwen::Event::Information info;
 			info.Control		= NULL;
 			info.ControlCaller	= NULL;
-			info.String			= opf.lpstrFile;
-			( pHandler->*fnCallback )( info );
+			for(auto fpath : sqFileName){
+                info.String	= fpath;
+                ( pHandler->*fnCallback )( info );
+			}
 		}
 	}
 
@@ -187,67 +210,67 @@ bool Gwen::Platform::FileOpen( const String & Name, const String & StartPath, co
 
 bool Gwen::Platform::FolderOpen( const String & Name, const String & StartPath, Gwen::Event::Handler* pHandler, Event::Handler::FunctionWithInformation fnCallback )
 {
-/*	IFileDialog* pfd = NULL;
 	bool bSuccess = false;
-
-#ifndef _MSC_VER
-    // The line below is from the Qt Toolkit "src/plugins/platforms/windows/qwindowsdialoghelpers.cpp"
-    static const CLSID CLSID_FileOpenDialog = {0xdc1c5a9c, 0xe88a, 0x4dde, {0xa5, 0xa1, 0x60, 0xf8, 0x2a, 0x20, 0xae, 0xf7}};
-#endif
-
-	if ( CoCreateInstance( CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS( &pfd ) ) != S_OK )
-	{ return bSuccess; }
-
-	DWORD dwOptions;
-
-	if ( pfd->GetOptions( &dwOptions ) != S_OK )
-	{
-		pfd->Release();
-		return bSuccess;
-	}
-
-	pfd->SetOptions( dwOptions | FOS_PICKFOLDERS );
-
-	//
-	// TODO: SetDefaultFolder -> StartPath
-	//
-
-	if ( pfd->Show( NULL ) == S_OK )
-	{
-		IShellItem* psi;
-
-		if ( pfd->GetResult( &psi ) == S_OK )
-		{
-			WCHAR* strOut = NULL;
-
-			if ( psi->GetDisplayName( SIGDN_DESKTOPABSOLUTEPARSING, &strOut ) != S_OK )
-			{
-				return bSuccess;
-			}
-
-			//
-			// GWEN callback - call it.
-			//
-			if ( pHandler && fnCallback )
-			{
-				Gwen::Event::Information info;
-				info.Control		= NULL;
-				info.ControlCaller	= NULL;
-				info.String			= Gwen::Utility::UnicodeToString( strOut );
-				( pHandler->*fnCallback )( info );
-			}
-
-			CoTaskMemFree( strOut );
-			psi->Release();
-			bSuccess = true;
-		}
-	}
-
-	pfd->Release();
-	return bSuccess;*/
+//	IFileDialog* pfd = NULL;
+//
+//#ifndef _MSC_VER
+//    // The line below is from the Qt Toolkit "src/plugins/platforms/windows/qwindowsdialoghelpers.cpp"
+//    static const CLSID CLSID_FileOpenDialog = {0xdc1c5a9c, 0xe88a, 0x4dde, {0xa5, 0xa1, 0x60, 0xf8, 0x2a, 0x20, 0xae, 0xf7}};
+//#endif
+//
+//	if ( CoCreateInstance( CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS( &pfd ) ) != S_OK )
+//	{ return bSuccess; }
+//
+//	DWORD dwOptions;
+//
+//	if ( pfd->GetOptions( &dwOptions ) != S_OK )
+//	{
+//		pfd->Release();
+//		return bSuccess;
+//	}
+//
+//	pfd->SetOptions( dwOptions | FOS_PICKFOLDERS );
+//
+//	//
+//	// TODO: SetDefaultFolder -> StartPath
+//	//
+//
+//	if ( pfd->Show( NULL ) == S_OK )
+//	{
+//		IShellItem* psi;
+//
+//		if ( pfd->GetResult( &psi ) == S_OK )
+//		{
+//			WCHAR* strOut = NULL;
+//
+//			if ( psi->GetDisplayName( SIGDN_DESKTOPABSOLUTEPARSING, &strOut ) != S_OK )
+//			{
+//				return bSuccess;
+//			}
+//
+//			//
+//			// GWEN callback - call it.
+//			//
+//			if ( pHandler && fnCallback )
+//			{
+//				Gwen::Event::Information info;
+//				info.Control		= NULL;
+//				info.ControlCaller	= NULL;
+//				info.String			= Gwen::Utility::UnicodeToString( strOut );
+//				( pHandler->*fnCallback )( info );
+//			}
+//
+//			CoTaskMemFree( strOut );
+//			psi->Release();
+//			bSuccess = true;
+//		}
+//	}
+//
+//	pfd->Release();
+	return bSuccess;
 }
 
-bool Gwen::Platform::FileSave( const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler, Gwen::Event::Handler::FunctionWithInformation fnCallback )
+bool Gwen::Platform::FileSave( const String & Name, const String & StartPath, const String & Extension, String & FileName, Gwen::Event::Handler* pHandler, Gwen::Event::Handler::FunctionWithInformation fnCallback )
 {
 	char Filestring[FileStringSize];
 	String returnstring;
@@ -294,6 +317,7 @@ bool Gwen::Platform::FileSave( const String & Name, const String & StartPath, co
 			info.String			= opf.lpstrFile;
 			( pHandler->*fnCallback )( info );
 		}
+		FileName = opf.lpstrFile;
 	}
 
 	return true;

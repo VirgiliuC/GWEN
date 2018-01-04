@@ -32,6 +32,7 @@ namespace Gwen
 					m_TextBox = new Controls::TextBox( this );
 					m_TextBox->Dock( Pos::Fill );
 					this->SetSize( 100, 20 );
+//					SetMultiSelection(false);
 					SetFileType( "Any Type | *.*" );
 				}
 
@@ -45,6 +46,11 @@ namespace Gwen
 					onFileChanged.Call( this );
 				}
 
+//				void SetMultiSelection(bool multi_sel)
+//				{
+//				    m_MultiSelection = multi_sel;
+//				}
+
 				const Gwen::TextObject & GetFileName()const
 				{
 					return m_TextBox->GetText();
@@ -52,7 +58,9 @@ namespace Gwen
 
 				void OnBrowse()
 				{
-					Gwen::Dialogs::FileOpen( true, "Name", "Start Path", m_FileType, this, &FilePicker::SetFileNameEvent );
+					Gwen::Dialogs::FileOpen( true, "Name", "Start Path",m_FileType, m_sqFileName,false /*m_MultiSelection*/, nullptr,nullptr);
+                    if(not m_sqFileName.empty())
+                        SetFileName( m_sqFileName[0] );
 				}
 
 				virtual TextObject GetValue() const  { return GetFileName(); }
@@ -62,16 +70,11 @@ namespace Gwen
 
 			private:
 
-				void SetFileNameEvent( Event::Info info )
-				{
-					SetFileName( info.String );
-				}
-
 				Controls::TextBox*	m_TextBox;
 				Controls::Button*	m_Button;
-
+				bool                m_MultiSelection;
 				String				m_FileType;
-
+                Gwen::List          m_sqFileName;
 		};
 	}
 

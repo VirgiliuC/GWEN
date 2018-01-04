@@ -3,6 +3,7 @@
 #define GWEN_CONTROLS_DIALOGS_FILEOPEN_H
 
 #include "Gwen/Gwen.h"
+#include "Gwen/Platform.h"
 
 namespace Gwen
 {
@@ -10,7 +11,10 @@ namespace Gwen
 	{
 		// Usage:
 		//
-		// Gwen::Dialogs::FileOpen( true, "Open Map", "C:\my\folder\", "My Map Format|*.bmf", this, &MyClass::OpenFilename );
+		// Gwen::Dialogs::FileOpen( true, "Open Map",
+//                                  "C:\my\folder\", "My Map Format|*.bmf",sqFileName,
+//                                  false,//multiple selection
+//                                  this, &MyClass::OpenFilename );
 		//
 
 		//
@@ -18,15 +22,25 @@ namespace Gwen
 		// If bUseSystem is used, it may use the system's modal dialog - which
 		// will steal focus and pause the rest of GWEN until it's continued.
 		//
-		void GWEN_EXPORT FileOpenEx( bool bUseSystem, const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler = NULL, Gwen::Event::Handler::FunctionWithInformation fnCallback = NULL );
+		void GWEN_EXPORT FileOpenEx(bool bUseSystem, const String & Name,
+                                    const String & StartPath, const String & Extension,
+                                    List & sqFileName,
+                                    bool multiSelect=false,
+                                    Gwen::Event::Handler* pHandler = NULL,
+                                    Gwen::Event::Handler::FunctionWithInformation fnCallback = NULL );
 
 		//
 		// Templated function simply to avoid having to manually cast the callback function.
 		//
 		template< typename A>
-		void FileOpen( bool bUseSystem, const String & Name, const String & StartPath, const String & Extension, Gwen::Event::Handler* pHandler = NULL, A fnCallback = NULL )
+		void FileOpen(  bool bUseSystem, const String & Name,
+                        const String & StartPath, const String & Extension,
+                        List & sqFileName,
+                        bool multiSelect=false,
+                        Gwen::Event::Handler* pHandler = NULL, A fnCallback = NULL )
 		{
-			FileOpenEx( bUseSystem, Name, StartPath, Extension, pHandler, static_cast<Gwen::Event::Handler::FunctionWithInformation>( fnCallback ) );
+			FileOpenEx( bUseSystem, Name, StartPath, Extension,sqFileName,multiSelect,
+                        pHandler, static_cast<Gwen::Event::Handler::FunctionWithInformation>( fnCallback ) );
 		}
 
 

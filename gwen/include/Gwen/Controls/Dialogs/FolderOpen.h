@@ -10,7 +10,7 @@ namespace Gwen
 	{
 		// Usage:
 		//
-		// Gwen::Dialogs::FileOpen( true, "Open Map", "C:\my\folder\", "My Map Format|*.bmf", this, &MyClass::OpenFilename );
+		// Gwen::Dialogs::FolderOpen( true, "Open Map", "C:\my\folder\", this, &MyClass::OpenFilename );
 		//
 
 		//
