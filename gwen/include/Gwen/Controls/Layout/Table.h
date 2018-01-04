@@ -200,13 +200,14 @@ namespace Gwen
 						return row;
 					}
 
-					void AddRow( TableRow* pRow )
+					TableRow* AddRow( TableRow* pRow )
 					{
 						pRow->SetParent( this );
 						pRow->SetColumnCount( m_iColumnCount );
 						pRow->SetHeight( m_iDefaultRowHeight );
 						pRow->Dock( Pos::Top );
 						Invalidate();
+						return pRow;
 					}
 
 					TableRow* GetRow( int i )

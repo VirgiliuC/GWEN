@@ -19,7 +19,7 @@ namespace Gwen
 
 		class GWEN_EXPORT VerticalScrollBar : public BaseScrollBar
 		{
-
+            public:
 				GWEN_CONTROL( VerticalScrollBar, BaseScrollBar );
 
 				virtual void Layout( Skin::Base* skin );

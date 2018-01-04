@@ -21,6 +21,7 @@ namespace Gwen
 	{
 		class GWEN_EXPORT HorizontalSlider : public Slider
 		{
+		    public:
 				GWEN_CONTROL( HorizontalSlider, Slider );
 
 				virtual void Layout( Skin::Base* skin );

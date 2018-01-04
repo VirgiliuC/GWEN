@@ -31,22 +31,22 @@ UnicodeString Gwen::Utility::Format( const wchar_t* fmt, ... )
 {
 	va_list s;
 	int len = 0;
-	
+
 	va_start( s, fmt );
-	
+
 	// Determine the length of the resulting string, this method is much faster
 	// than looping and reallocating a bigger buffer size.
-	{	
+	{
 		FILE* fnull = fopen( GWEN_FNULL, "wb" );
 		va_list c;
 		va_copy( c, s );
 		len = vfwprintf( fnull, fmt, c );
 		va_end( c );
 		fclose( fnull );
-	} 
-	
+	}
+
 	UnicodeString strOut;
-	
+
 	if (len > 0)
 	{
 		strOut.resize( len + 1 );
@@ -56,15 +56,15 @@ UnicodeString Gwen::Utility::Format( const wchar_t* fmt, ... )
 		va_end( c );
 		strOut.resize( len );
 	}
-	
+
 	va_end( s );
-	
+
 	return strOut;
 }
 
 
 
-void Gwen::Utility::Strings::Split( const Gwen::String & str, const Gwen::String & seperator, Strings::List & outbits, bool bLeave )
+void Gwen::Utility::Strings::Split( const Gwen::String & str, const Gwen::String & seperator, List & outbits, bool bLeave )
 {
 	int iOffset = 0;
 	int iLength = str.length();
@@ -83,7 +83,7 @@ void Gwen::Utility::Strings::Split( const Gwen::String & str, const Gwen::String
 	outbits.push_back( str.substr( iOffset, iLength - iOffset ) );
 }
 
-void Gwen::Utility::Strings::Split( const Gwen::UnicodeString & str, const Gwen::UnicodeString & seperator, Strings::UnicodeList & outbits, bool bLeave )
+void Gwen::Utility::Strings::Split( const Gwen::UnicodeString & str, const Gwen::UnicodeString & seperator, UnicodeList & outbits, bool bLeave )
 {
 	int iOffset = 0;
 	int iLength = str.length();
@@ -136,7 +136,7 @@ bool Gwen::Utility::Strings::To::Bool( const Gwen::String & str )
 
 bool Gwen::Utility::Strings::To::Floats( const Gwen::String & str, float* f, size_t iCount )
 {
-	Strings::List lst;
+	List lst;
 	Strings::Split( str, " ", lst );
 
 	if ( lst.size() != iCount ) { return false; }

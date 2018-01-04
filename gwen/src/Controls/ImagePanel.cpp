@@ -53,6 +53,12 @@ void ImagePanel::SetTexImage(const Texture & texobj,float u1, float v1, float u2
 {
     m_Texture=texobj;
     SetUV( u1, v1, u2, v2 );
+
+    Gwen::Rect rbounds = GetRenderBounds();
+    m_Scale[0]=rbounds.w/(float)ImageWidth();
+    m_Scale[1]=rbounds.h/(float)ImageHeight();
+    if(not m_bStretch)
+       m_Scale[0]= m_Scale[1]=std::min(m_Scale[0],m_Scale[1]);
 };
 
 //***********************************************************************

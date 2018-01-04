@@ -32,7 +32,7 @@ void RichLabel::AddText( const Gwen::TextObject & text, Gwen::Color color, Gwen:
 {
 	if ( text.length() == 0 ) { return; }
 
-	Gwen::Utility::Strings::UnicodeList lst;
+	Gwen::UnicodeList lst;
 	Gwen::Utility::Strings::Split( text.GetUnicode(), L"\n", lst, false );
 
 	for ( size_t i = 0; i < lst.size(); i++ )
@@ -58,7 +58,7 @@ bool RichLabel::SizeToChildren( bool w, bool h )
 
 void RichLabel::SplitLabel( const Gwen::UnicodeString & text, Gwen::Font* pFont, const DividedText & txt, int & x, int & y, int & lineheight )
 {
-	Gwen::Utility::Strings::UnicodeList lst;
+	Gwen::UnicodeList lst;
 	Gwen::Utility::Strings::Split( text, L" ", lst, true );
 
 	if ( lst.size() == 0 ) { return; }

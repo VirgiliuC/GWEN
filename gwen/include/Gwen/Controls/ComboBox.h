@@ -33,6 +33,7 @@ namespace Gwen
 				virtual void SelectItem( MenuItem* pItem, bool bFireChangeEvents = true );
 				virtual void SelectItemByName( const Gwen::String & name, bool bFireChangeEvents = true );
 				virtual Gwen::Controls::Label* GetSelectedItem();
+				virtual int GetSelectedIndex();
 
 				virtual void OnPress();
 				virtual void OnItemSelected( Controls::Base* pControl );

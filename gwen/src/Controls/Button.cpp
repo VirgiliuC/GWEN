@@ -31,7 +31,8 @@ GWEN_CONTROL_CONSTRUCTOR( Button )
 
 void Button::Render( Skin::Base* skin )
 {
-	if ( !ShouldDrawBackground() ) { return; }
+//	this->UpdateColours();
+	if (not ShouldDrawBackground() ) { return; }
 
 	bool bDrawDepressed = IsDepressed() && IsHovered();
 
@@ -140,6 +141,34 @@ void Button::SetImage( const TextObject & strName, bool bCenter )
 	SetTextPadding( padding );
 }
 
+void Button::SetImage( const Texture & texObject, bool bCenter )
+{
+	if ( texObject.data== NULL or texObject.failed)
+	{
+		if ( m_Image )
+		{
+			delete m_Image;
+			m_Image = NULL;
+		}
+
+		return;
+	}
+
+	if ( !m_Image )
+	{
+		m_Image = new ImagePanel( this );
+	}
+
+	m_Image->SetTexImage( texObject );
+	m_Image->SizeToContents();
+	m_Image->SetMargin( Margin( 2, 0, 2, 0 ) );
+	m_bCenterImage = bCenter;
+	// Ugh.
+	Padding padding = GetTextPadding();
+	padding.left = m_Image->Right() + 2;
+	SetTextPadding( padding );
+}
+
 void Button::SetToggleState( bool b )
 {
 	if ( m_bToggleStatus == b ) { return; }
@@ -191,7 +220,7 @@ void Button::AcceleratePressed()
 
 void Button::UpdateColours()
 {
-	if ( IsDisabled() )		{ return SetTextColor( GetSkin()->Colors.Button.Disabled ); }
+	if ( IsDisabled() )		{ return SetTextColor( GetSkin()->Colors.Label.Dark/*Button.Disabled*/ ); }//VC can't see the original
 
 	if ( IsDepressed() || GetToggleState() )	{ return SetTextColor( GetSkin()->Colors.Button.Down ); }
 

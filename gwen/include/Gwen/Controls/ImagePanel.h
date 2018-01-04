@@ -33,6 +33,7 @@ namespace Gwen
 				virtual void SetImage( const TextObject & imageName )
 				{
 					m_Texture.Load( imageName, GetSkin()->GetRender() );
+					SetTexImage(m_Texture);
 				}
                 virtual void SetTexImage(const Texture & texobj,float u1=0, float v1=0, float u2=1, float v2=1);
 

@@ -49,6 +49,7 @@ namespace Gwen
 
 
 				virtual void SetImage( const TextObject & strName, bool bCenter = false );
+				virtual void SetImage( const Texture    & texObject, bool bCenter = false );
 
 				virtual void SizeToContents();
 				virtual void PostLayout( Skin::Base* pSkin );

@@ -16,7 +16,7 @@
 using namespace Gwen;
 using namespace Gwen::Controls;
 //////////////////////////////////////////////////////////////////////////////////////
-//VC - Animation X class that restors the filled docking of the animated page
+//VC - Animation X class that restores the filled docking of the animated page
 class PgCtrlAnimX : public Anim::Pos::X
 {
     public:
@@ -73,6 +73,8 @@ GWEN_CONTROL_CONSTRUCTOR( PageControl )
 
 void PageControl::SetPageCount( unsigned int iNum )
 {
+	if(iNum == m_iPages)
+        return;
 	if ( iNum >= MaxPages ) { iNum = MaxPages; }
 
 	for ( unsigned int i = 0; i < iNum; i++ )
@@ -103,6 +105,8 @@ void PageControl::HideAll()
 
 void PageControl::ShowPage( unsigned int i )
 {
+	if(i >= m_iPages)
+        i = m_iPages-1;//do not exceed the last page
 	if ( m_iCurrentPage == i ) { return; }
 
 	if ( m_pPages[i] )
@@ -116,7 +120,10 @@ void PageControl::ShowPage( unsigned int i )
 	m_Next->SetDisabled( m_iCurrentPage >= m_iPages );
 //	m_Label->SetText( Utility::Format( "Page %i of %i", m_iCurrentPage + 1, m_iPages ) );//original
     char cpage[64];//VC
-    sprintf(cpage,"Page %i of %i", m_iCurrentPage + 1, m_iPages  );
+    if(m_pPages[i]->GetName().empty())
+        sprintf(cpage,"Page %i of %i", m_iCurrentPage + 1, m_iPages  );
+    else
+        sprintf(cpage,"Page %i of %i: %s", m_iCurrentPage + 1, m_iPages, m_pPages[i]->GetName().c_str());
     m_Label->SetText(cpage);
 
 	if ( GetUseFinishButton() )

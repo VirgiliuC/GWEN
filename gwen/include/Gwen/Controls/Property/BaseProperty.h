@@ -37,6 +37,8 @@ namespace Gwen
 
 					virtual void DoChanged()
 					{
+						if(IsDisabled())
+                            return;
 						Event::Information info;
 						info.String = GetPropertyValue();
 						onChange.Call( this, info );

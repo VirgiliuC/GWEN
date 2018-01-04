@@ -39,6 +39,7 @@ namespace Gwen
 				virtual int TabCount( void );
 				virtual TabButton* GetTab( int iNum );
 				virtual TabButton* GetCurrentButton() { return m_pCurrentButton; }
+				virtual int        GetCurrentTabIndex();
 				virtual TabStrip* GetTabStrip() { return m_TabStrip; }
 
 				virtual void SetTabStripPosition( int iDock );
@@ -49,6 +50,7 @@ namespace Gwen
 
 				Gwen::Event::Caller	onLoseTab;
 				Gwen::Event::Caller	onAddTab;
+				Gwen::Event::Caller	onPageChange;
 
 			private:
 

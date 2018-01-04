@@ -37,6 +37,7 @@ namespace Gwen
 
 		class GWEN_EXPORT Slider : public Base
 		{
+		    public:
 				GWEN_CONTROL( Slider, Base );
 
 				virtual void Render( Skin::Base* skin ) = 0;

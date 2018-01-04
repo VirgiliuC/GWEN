@@ -9,7 +9,6 @@
 #define GWEN_UTILITY_H
 
 #include <sstream>
-#include <vector>
 #include "Gwen/Structures.h"
 
 namespace Gwen
@@ -113,11 +112,8 @@ namespace Gwen
 
 		namespace Strings
 		{
-			typedef std::vector<Gwen::String> List;
-			typedef std::vector<Gwen::UnicodeString> UnicodeList;
-
-			GWEN_EXPORT void Split( const Gwen::String & str, const Gwen::String & seperator, Strings::List & outbits, bool bLeaveSeperators = false );
-			GWEN_EXPORT void Split( const Gwen::UnicodeString & str, const Gwen::UnicodeString & seperator, Strings::UnicodeList & outbits, bool bLeaveSeperators = false );
+			GWEN_EXPORT void Split( const Gwen::String & str, const Gwen::String & seperator, List & outbits, bool bLeaveSeperators = false );
+			GWEN_EXPORT void Split( const Gwen::UnicodeString & str, const Gwen::UnicodeString & seperator, UnicodeList & outbits, bool bLeaveSeperators = false );
 			GWEN_EXPORT bool Wildcard( const Gwen::TextObject & strWildcard, const Gwen::TextObject & strHaystack );
 
 			GWEN_EXPORT void ToUpper( Gwen::UnicodeString & str );

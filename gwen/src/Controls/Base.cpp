@@ -966,6 +966,9 @@ void Base::DragAndDrop_StartDragging( Gwen::DragAndDrop::Package* pPackage, int 
 
 bool Base::SizeToChildren( bool w, bool h )
 {
+	//first, size the inner panel accordingly (if applicable);
+	if(Inner())//VC this was omitted in the original
+        Inner()->SizeToChildren(w,h);
 	Gwen::Point size = ChildrenSize();
 	size.y += GetPadding().bottom;
 	size.x += GetPadding().right;

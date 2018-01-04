@@ -116,6 +116,7 @@ void ComboBox::ClearItems()
 	{
 		m_Menu->ClearItems();
 	}
+	m_SelectedItem = NULL;
 }
 
 void ComboBox::SelectItem( MenuItem* pItem, bool bFireChangeEvents )
@@ -175,6 +176,24 @@ void ComboBox::OnKeyboardFocus()
 	//m_SelectedText->SetTextColor( Color( 255, 255, 255, 255 ) );
 }
 
+int ComboBox::GetSelectedIndex()
+{
+	Base::List & children = m_Menu->GetChildren();
+	Base::List::const_iterator it = children.begin();
+    int i=0;
+	while ( it != children.end() )
+	{
+		MenuItem* pChild = gwen_cast<MenuItem> ( *it );
+
+		if ( pChild == GetSelectedItem() )
+		{
+			return i;
+		}
+        ++i;
+		++it;
+	}
+	return -1;
+}
 Gwen::Controls::Label* ComboBox::GetSelectedItem()
 {
 	return m_SelectedItem;

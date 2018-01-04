@@ -128,6 +128,9 @@ void TabControl::OnTabPressed( Controls::Base* control )
 	}
 
 	m_pCurrentButton = pButton;
+//	Event::Information info;
+//	info.String = m_pCurrentButton->GetPage()->GetName().Get();
+	onPageChange.Call( this );//,info);
 	pPage->SetHidden( false );
 	m_TabStrip->Invalidate();
 	Invalidate();
@@ -157,6 +160,19 @@ int TabControl::TabCount( void )
 TabButton* TabControl::GetTab( int iNum )
 {
 	return gwen_cast<TabButton> ( m_TabStrip->GetChild( iNum ) );
+}
+
+int TabControl::GetCurrentTabIndex(){
+    auto button = GetCurrentButton();
+    int iTab=-1;
+    for ( Base::List::iterator iter = m_TabStrip->Children.begin(); iter != m_TabStrip->Children.end(); ++iter )
+	{
+		iTab++;
+		Base* pChild = *iter;
+		if(pChild == button)
+           return iTab;
+	}
+    return -1;
 }
 
 void TabControl::SetTabStripPosition( int iDock )

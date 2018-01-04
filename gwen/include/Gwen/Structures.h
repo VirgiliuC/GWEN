@@ -14,6 +14,7 @@
 
 #include "Gwen/Exports.h"
 #include <string>
+#include <vector>
 
 namespace Gwen
 {
@@ -39,8 +40,10 @@ namespace Gwen
 		static const unsigned char Count	= 10;
 	}
 
-	typedef std::wstring UnicodeString;
 	typedef std::string String;
+	typedef std::wstring UnicodeString;
+	typedef std::vector<Gwen::String> List;
+	typedef std::vector<Gwen::UnicodeString> UnicodeList;
 
 	typedef wchar_t UnicodeChar; // Portability??
 
