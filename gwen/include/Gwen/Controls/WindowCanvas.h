@@ -25,7 +25,10 @@ namespace Gwen
 
 				GWEN_CLASS( WindowCanvas, Controls::Canvas );
 
-				WindowCanvas( int x, int y, int w, int h, Gwen::Skin::Base* pRenderer, const Gwen::String & strWindowTitle = "" );
+				WindowCanvas( int x, int y, int w, int h,
+                                Gwen::Skin::Base* pRenderer,
+                                const Gwen::String & strWindowTitle = "",
+                                int msecRefresh=50);
 				~WindowCanvas();
 
 				virtual void DoThink();
@@ -44,14 +47,14 @@ namespace Gwen
 				virtual void SetPos( int x, int y );
 				virtual bool IsOnTop();
 
-				virtual void Layout( Skin::Base* skin );
+				virtual void PostLayout( Skin::Base* skin );
 
 				virtual bool CanMaximize() { return m_bCanMaximize; }
 				virtual void SetCanMaximize( bool b );
 				virtual void SetMaximize( bool b );
 
-				virtual void SetSizable( bool b ) { m_Sizer->SetHidden( !b ); }
-				virtual bool GetSizable() const { return m_Sizer->Visible(); }
+				virtual void SetSizable( bool b ) { m_SizerBR->SetHidden( !b ); m_SizerTL->SetHidden( !b );}
+				virtual bool GetSizable() const { return m_SizerBR->Visible() or m_SizerTL->Visible(); }
 
 			protected:
 
@@ -64,7 +67,7 @@ namespace Gwen
 
 				virtual void Dragger_Start();
 				virtual void Dragger_Moved();
-				virtual void Sizer_Moved();
+				virtual void Sizer_Moved(Gwen::Event::Info info);
 				virtual void OnTitleDoubleClicked();
 
 				void*		m_pOSWindow;
@@ -73,7 +76,8 @@ namespace Gwen
 				Gwen::Skin::Base*			m_pSkinChange;
 
 				ControlsInternal::Dragger*	m_TitleBar;
-				ControlsInternal::Dragger*	m_Sizer;
+				ControlsInternal::Dragger*	m_SizerBR;//bottom-right
+				ControlsInternal::Dragger*	m_SizerTL;//top-left
 				Gwen::Controls::Label*		m_Title;
 
 
