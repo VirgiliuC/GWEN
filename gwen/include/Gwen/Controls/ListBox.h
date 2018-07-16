@@ -26,6 +26,7 @@ namespace Gwen
 				GWEN_CONTROL( ListBox, ScrollControl );
 
 				typedef std::list<Layout::TableRow*> Rows;
+				typedef std::vector<int> RowIndices;
 
 				Layout::TableRow* AddItem( const TextObject & strLabel, const String & strName = "" );
 
@@ -43,10 +44,14 @@ namespace Gwen
 
 				virtual Layout::TableRow* GetSelectedRow();
 				virtual Gwen::String GetSelectedRowName();
+				virtual int GetSelectedRowIndex() {return m_Table->GetChildIndex(GetSelectedRow());};
+                virtual RowIndices GetSelectedIndices() const;
 
 				virtual void SetSelectedRow( Gwen::Controls::Base* pRow, bool bClearOthers = true );
-				virtual void SelectByString( const TextObject & string, bool bClearOthers = true );
-
+				virtual void SelectByString( const TextObject & string, int cell = 0, bool bClearOthers = true );
+                virtual void SelectByIndex( int index,bool bClearOthers = true)
+                                {SetSelectedRow(GetTable()->GetRow(index),bClearOthers);}
+				virtual void UnselectItem(Layout::TableRow*);
 				Gwen::Event::Caller	onRowSelected;
 
 				Controls::Layout::Table* GetTable() { return m_Table; }
