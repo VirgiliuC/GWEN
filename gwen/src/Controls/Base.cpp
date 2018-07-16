@@ -15,6 +15,7 @@
 #include "Gwen/ToolTip.h"
 #include "Gwen/Utility.h"
 #include <list>
+#include <limits>
 
 #ifndef GWEN_NO_ANIMATION
 #include "Gwen/Anim.h"
@@ -49,6 +50,9 @@ Base::Base( Base* pParent, const Gwen::String & Name )
 	m_bCacheTextureDirty = true;
 	m_bCacheToTexture = false;
 	m_bIncludeInSize = true;
+	std::numeric_limits<int> int_limits;
+	SetMinSize(int_limits.min(),int_limits.min());
+	SetMaxSize(int_limits.max(),int_limits.max());
 }
 
 Base::~Base()
@@ -337,6 +341,19 @@ Controls::Base* Base::GetChild( unsigned int i )
 	return NULL;
 }
 
+int Base::GetChildIndex( Controls::Base* pChild)
+{
+    int i=0;
+    for ( Base::List::iterator iter = Children.begin(); iter != Children.end(); ++iter )
+	{
+		if (pChild == *iter )
+		{ return i; }
+
+		i++;
+	}
+	return -1;
+}
+
 void Base::OnChildAdded( Base* /*pChild*/ )
 {
 	Invalidate();
@@ -411,8 +428,11 @@ bool Base::SetBounds( int x, int y, int w, int h )
 	Gwen::Rect oldBounds = GetBounds();
 	m_Bounds.x = x;
 	m_Bounds.y = y;
-	m_Bounds.w = w;
-	m_Bounds.h = h;
+	//apply the limits
+	m_Bounds.w = std::max(w,GetMinSize().x) ;
+	m_Bounds.h = std::max(h,GetMinSize().y) ;
+	m_Bounds.w = std::min(m_Bounds.w,GetMaxSize().x) ;
+	m_Bounds.h = std::min(m_Bounds.h,GetMaxSize().y) ;
 	OnBoundsChanged( oldBounds );
 	return true;
 }

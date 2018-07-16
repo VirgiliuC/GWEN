@@ -76,6 +76,7 @@ namespace Gwen
 				virtual bool IsChild( Controls::Base* pChild );
 				virtual unsigned int NumChildren();
 				virtual Controls::Base* GetChild( unsigned int i );
+				virtual int GetChildIndex( Controls::Base*);
 				virtual bool SizeToChildren( bool w = true, bool h = true );
 				virtual Gwen::Point ChildrenSize();
 				virtual Controls::Base* FindChildByName( const Gwen::String & name, bool bRecursive = false );
@@ -128,7 +129,11 @@ namespace Gwen
 				virtual void SetHeight( int h ) { SetSize( Width(), h ); }
 				virtual bool SetSize( int w, int h );
 				virtual bool SetSize( const Point & p );
+				virtual void SetMinSize( int w, int h ) {m_MinSize.x =w; m_MinSize.y =h;}
+				virtual void SetMaxSize( int w, int h ) {m_MaxSize.x =w; m_MaxSize.y =h;}
 				virtual Point GetSize()  const { return Point( Width(), Height() ); }
+				virtual Point GetMinSize()  const { return m_MinSize; }
+				virtual Point GetMaxSize()  const { return m_MaxSize; }
 				virtual bool SetBounds( int x, int y, int w, int h );
 				virtual bool SetBounds( const Gwen::Rect & bounds );
 
@@ -388,6 +393,8 @@ namespace Gwen
 
 				Gwen::Rect		m_Bounds;
 				Gwen::Rect		m_RenderBounds;
+				Gwen::Point     m_MinSize;
+				Gwen::Point     m_MaxSize;
 
 				Padding		m_Padding;
 				Margin		m_Margin;
@@ -544,11 +551,11 @@ T* gwen_cast( Gwen::Controls::Base* p )
 {
 	if ( !p ) { return NULL; }
 
-	Gwen::Controls::Base* pReturn = p->DynamicCast( T::GetIdentifier() );
+//	Gwen::Controls::Base* pReturn = p->DynamicCast( T::GetIdentifier() );
+//
+//	if ( !pReturn ) { return NULL; }
 
-	if ( !pReturn ) { return NULL; }
-
-	return static_cast<T*>( pReturn );
+	return dynamic_cast<T*>(p);//static_cast<T*>( pReturn );
 }
 
 
