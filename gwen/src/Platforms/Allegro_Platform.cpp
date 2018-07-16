@@ -38,6 +38,7 @@ static const ALLEGRO_SYSTEM_MOUSE_CURSOR g_CursorConversion[] =
 	ALLEGRO_SYSTEM_MOUSE_CURSOR_LINK        // IDC_HAND
 };
 
+<<<<<<< HEAD
 /////////////////////////////////////////////////////////////////////////////
 
 void* Gwen::Platform::CreatePlatformWindow( int x, int y, int w, int h, const Gwen::String & strWindowTitle, int /*msecRefresh*/ )
@@ -95,6 +96,9 @@ void Gwen::Platform::MessagePump( void* pWindow, Gwen::Controls::Canvas* ptarget
 	}
 }
 ////////////////////////////////////////////////////////////////////////////////////////
+=======
+
+>>>>>>> e122ca3948a4b9b8ab6dbfd23d8926b3b9f9c45b
 void Gwen::Platform::Sleep( unsigned int iMS )
 {
 	al_rest( iMS * 0.001 );
@@ -215,6 +219,63 @@ bool Gwen::Platform::FolderOpen( const String & Name, const String & StartPath,
 	return true;
 }
 
+<<<<<<< HEAD
+=======
+void* Gwen::Platform::CreatePlatformWindow( int x, int y, int w, int h, const Gwen::String & strWindowTitle )
+{
+	if ( !al_is_system_installed() && !al_init() )
+	{ return NULL; }
+
+	al_set_new_window_position( x, y );
+	al_set_new_display_flags( ALLEGRO_WINDOWED | ALLEGRO_FRAMELESS );
+	ALLEGRO_DISPLAY* display = al_create_display( w, h );
+
+	if ( !display ) { return NULL; }
+
+	g_display = display;
+	al_set_window_title( display, strWindowTitle.c_str() );	// invisible as frameless?
+	g_event_queue = al_create_event_queue();
+
+	if ( !g_event_queue ) { return NULL; }
+
+	al_init_image_addon();
+	al_init_font_addon();
+	al_init_primitives_addon();
+	al_init_ttf_addon();
+	al_install_mouse();
+	al_install_keyboard();
+	al_register_event_source( g_event_queue, al_get_display_event_source( display ) );
+	al_register_event_source( g_event_queue, al_get_mouse_event_source() );
+	al_register_event_source( g_event_queue, al_get_keyboard_event_source() );
+	return display;
+}
+
+void Gwen::Platform::DestroyPlatformWindow( void* pPtr )
+{
+	ALLEGRO_DISPLAY* display = ( ALLEGRO_DISPLAY* ) pPtr;
+	al_destroy_display( display );
+	al_destroy_event_queue( g_event_queue );
+	g_event_queue = NULL;
+}
+
+void Gwen::Platform::MessagePump( void* pWindow, Gwen::Controls::Canvas* ptarget )
+{
+	static bool firstCall = true;
+
+	if ( firstCall )
+	{
+		firstCall = false;
+		g_GwenInput.Initialize( ptarget );
+	}
+
+	ALLEGRO_EVENT ev;
+
+	while ( al_get_next_event( g_event_queue, &ev ) )
+	{
+		g_GwenInput.ProcessMessage( ev );
+	}
+}
+>>>>>>> e122ca3948a4b9b8ab6dbfd23d8926b3b9f9c45b
 
 void Gwen::Platform::SetBoundsPlatformWindow( void* pPtr, int x, int y, int w, int h )
 {

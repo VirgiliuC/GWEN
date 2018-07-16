@@ -19,17 +19,23 @@
 #include "Gwen/Platform.h"
 #include "Gwen/Input/Windows.h"
 
+<<<<<<< HEAD
 #include <memory>
+=======
+>>>>>>> e122ca3948a4b9b8ab6dbfd23d8926b3b9f9c45b
 #include <thread>
 #include <chrono>
 #include <windows.h>
 //#include <ShlObj.h>
 //#include <Shobjidl.h>
 
+<<<<<<< HEAD
 //#ifndef MSWINDOWS_REFRESH_MSEC
 //#   define MSWINDOWS_REFRESH_MSEC 50
 //#endif
 
+=======
+>>>>>>> e122ca3948a4b9b8ab6dbfd23d8926b3b9f9c45b
 using namespace Gwen;
 using namespace Gwen::Platform;
 
@@ -51,6 +57,7 @@ static LPCTSTR iCursorConversion[] =
 	IDC_WAIT,
 	IDC_HAND
 };
+<<<<<<< HEAD
 //
 //class WakeupThread
 //{
@@ -228,6 +235,8 @@ void Gwen::Platform::MessagePump( void* pWindow, Gwen::Controls::Canvas* ptarget
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+=======
+>>>>>>> e122ca3948a4b9b8ab6dbfd23d8926b3b9f9c45b
 
 void Gwen::Platform::SetCursor( unsigned char iCursor )
 {
@@ -508,6 +517,99 @@ bool Gwen::Platform::FileSave( const String & Name, const String & StartPath, co
 }
 
 
+<<<<<<< HEAD
+=======
+void* Gwen::Platform::CreatePlatformWindow( int x, int y, int w, int h, const Gwen::String & strWindowTitle )
+{
+	CoInitializeEx( NULL, COINIT_APARTMENTTHREADED );
+	WNDCLASSA	wc;
+	ZeroMemory( &wc, sizeof( wc ) );
+	wc.style			= CS_OWNDC | CS_DROPSHADOW;
+	wc.lpfnWndProc		= DefWindowProc;
+	wc.hInstance		= GetModuleHandle( NULL );
+	wc.lpszClassName	= "GWEN_Window_Class";
+	wc.hCursor			= LoadCursor( NULL, IDC_ARROW );
+	RegisterClassA( &wc );
+	HWND hWindow = CreateWindowExA( WS_EX_APPWINDOW | WS_EX_ACCEPTFILES, wc.lpszClassName, strWindowTitle.c_str(), WS_POPUP | WS_VISIBLE, x, y, w, h, NULL, NULL, GetModuleHandle( NULL ), NULL );
+	ShowWindow( hWindow, SW_SHOW );
+	UpdateWindow(hWindow);
+	SetForegroundWindow( hWindow );
+	SetFocus( hWindow );
+	// Curve the corners
+	{
+		HRGN rgn = CreateRoundRectRgn( 0, 0, w + 1, h + 1, 4, 4 );
+		SetWindowRgn( hWindow, rgn, false );
+	}
+	return ( void* ) hWindow;
+}
+
+void Gwen::Platform::DestroyPlatformWindow( void* pPtr )
+{
+	DestroyWindow( ( HWND ) pPtr );
+	CoUninitialize();
+}
+
+void Gwen::Platform::MessagePump( void* pWindow, Gwen::Controls::Canvas* ptarget )
+{
+	GwenInput.Initialize( ptarget );
+	MSG msg;
+    BOOL bRet;
+    int refresh = 50;
+    bool wantsQuit = false;
+
+//    std::thread refresh_thread;
+//    if (refresh > 0) {
+//        /* If there are no mouse/keyboard events, try to refresh the
+//           view roughly every 50 ms (default); this is to support animations
+//           such as progress bars while keeping the system load
+//           reasonably low */
+//        refresh_thread = std::thread(
+//            [refresh, pWindow, wantsQuit]() {
+//                std::chrono::milliseconds time(refresh);
+//                while (not wantsQuit) {
+//                    std::this_thread::sleep_for(time);
+//                    PostMessage(( HWND ) pWindow,WM_USER, 0,0);
+//                }
+//            }
+//        );
+//    }
+
+	while ( bRet = PeekMessage( &msg, ( HWND ) pWindow, 0, 0, PM_REMOVE ) )
+	{
+		if(bRet == -1){
+            //something bad happened, just quit
+            ptarget->InputQuit();
+            wantsQuit = true;
+            break;
+		}
+		if ( GwenInput.ProcessMessage( msg ) )
+		{ continue; }
+
+		if ( msg.message == WM_PAINT )
+		{
+			ptarget->Redraw();
+		}
+
+		TranslateMessage( &msg );
+		DispatchMessage( &msg );
+		//give away the control for 1 ms
+//		Sleep(50);
+	}
+
+	// If the active window has changed then force a redraw of our canvas
+	// since we might paint ourselves a different colour if we're inactive etc
+	{
+		static HWND g_LastFocus = NULL;
+
+		if ( GetActiveWindow()  != g_LastFocus )
+		{
+			g_LastFocus = GetActiveWindow();
+			ptarget->Redraw();
+		}
+	}
+}
+
+>>>>>>> e122ca3948a4b9b8ab6dbfd23d8926b3b9f9c45b
 void Gwen::Platform::SetBoundsPlatformWindow( void* pPtr, int x, int y, int w, int h )
 {
 	SetWindowPos( ( HWND ) pPtr, HWND_NOTOPMOST, x, y, w, h, SWP_NOOWNERZORDER | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOSENDCHANGING );

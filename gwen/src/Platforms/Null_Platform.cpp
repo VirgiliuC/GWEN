@@ -13,6 +13,7 @@
 
 static Gwen::UnicodeString gs_ClipboardEmulator;
 
+<<<<<<< HEAD
 
 /////////////////////////////////////////////////////////////////////////////////////////
 void* Gwen::Platform::CreatePlatformWindow( int x, int y, int w, int h, const Gwen::String & strWindowTitle, int msecRefresh )
@@ -28,6 +29,8 @@ void Gwen::Platform::MessagePump( void* pWindow, Gwen::Controls::Canvas* ptarget
 {
 }
 /////////////////////////////////////////////////////////////////////////////////////////
+=======
+>>>>>>> e122ca3948a4b9b8ab6dbfd23d8926b3b9f9c45b
 void Gwen::Platform::Sleep( unsigned int iMS )
 {
 	// TODO.
@@ -78,6 +81,22 @@ bool Gwen::Platform::FolderOpen( const String & Name, const String & StartPath, 
 	return false;
 }
 
+<<<<<<< HEAD
+=======
+void* Gwen::Platform::CreatePlatformWindow( int x, int y, int w, int h, const Gwen::String & strWindowTitle )
+{
+	return NULL;
+}
+
+void Gwen::Platform::DestroyPlatformWindow( void* pPtr )
+{
+}
+
+void Gwen::Platform::MessagePump( void* pWindow, Gwen::Controls::Canvas* ptarget )
+{
+}
+
+>>>>>>> e122ca3948a4b9b8ab6dbfd23d8926b3b9f9c45b
 void Gwen::Platform::SetBoundsPlatformWindow( void* pPtr, int x, int y, int w, int h )
 {
 }
