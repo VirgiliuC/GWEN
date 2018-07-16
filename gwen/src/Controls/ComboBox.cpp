@@ -66,7 +66,7 @@ MenuItem* ComboBox::AddItem( const UnicodeString & strLabel, const String & strN
 
 	//Default
 	if ( m_SelectedItem == NULL )
-	{ OnItemSelected( pItem ); }
+	{ SelectItem( pItem,false); }//do not fire selection events on adding
 
 	return pItem;
 }
@@ -92,6 +92,15 @@ void ComboBox::UpdateColours()
 	}
 
 	BaseClass::UpdateColours();
+}
+
+int ComboBox::NumItems()
+{
+	if ( m_Menu )
+	{
+		return m_Menu->NumChildren();
+	}
+	return 0;
 }
 
 void ComboBox::OnPress()
@@ -124,6 +133,8 @@ void ComboBox::SelectItem( MenuItem* pItem, bool bFireChangeEvents )
 	if ( m_SelectedItem == pItem ) { return; }
 
 	m_SelectedItem = pItem;
+	if(m_SelectedItem == nullptr)
+        return;
 	SetText( m_SelectedItem->GetText() );
 	m_Menu->SetHidden( true );
 	Invalidate();
@@ -161,19 +172,22 @@ void ComboBox::SelectItemByName( const Gwen::String & name, bool bFireChangeEven
 
 		++it;
 	}
+	SelectItem( nullptr,false);
 }
 
 void ComboBox::OnLostKeyboardFocus()
 {
-	SetTextColor( Color( 0, 0, 0, 255 ) );
+//	SetTextColor( Color( 0, 0, 0, 255 ) );
+    SetTextColor( GetSkin()->Colors.Text);
 }
 
 
 void ComboBox::OnKeyboardFocus()
 {
 	//Until we add the blue highlighting again
-	SetTextColor( Color( 0, 0, 0, 255 ) );
+//	SetTextColor( Color( 0, 0, 0, 255 ) );
 	//m_SelectedText->SetTextColor( Color( 255, 255, 255, 255 ) );
+	SetTextColor( GetSkin()->Colors.Text );
 }
 
 int ComboBox::GetSelectedIndex()

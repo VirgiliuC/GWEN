@@ -86,6 +86,8 @@ namespace Gwen
 						m_Columns[i]->SetMouseInputEnabled( bEnableMouseInput );
 					}
 
+					int GetColumnCount() const {return m_ColumnCount;}
+
 					Label* GetCellContents( int i )
 					{
 						return m_Columns[i];
@@ -215,7 +217,7 @@ namespace Gwen
 						return gwen_cast<TableRow> ( GetChild( i ) );
 					}
 
-					unsigned int RowCount( int i )
+					unsigned int RowCount()
 					{
 						return NumChildren();
 					}

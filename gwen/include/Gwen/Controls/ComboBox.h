@@ -34,6 +34,7 @@ namespace Gwen
 				virtual void SelectItemByName( const Gwen::String & name, bool bFireChangeEvents = true );
 				virtual Gwen::Controls::Label* GetSelectedItem();
 				virtual int GetSelectedIndex();
+				virtual int NumItems();
 
 				virtual void OnPress();
 				virtual void OnItemSelected( Controls::Base* pControl );
