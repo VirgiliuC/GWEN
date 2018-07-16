@@ -76,6 +76,7 @@ namespace Gwen
 		static const Color White( 255, 255, 255, 255 );
 		static const Color Blue( 0, 0, 255, 255 );
 		static const Color Green( 0, 255, 0, 255 );
+		static const Color Cyan( 0, 255, 255, 255 );
 		static const Color Grey( 200, 200, 200, 255 );
 		static const Color GreyLight( 230, 230, 230, 255 );
 		static const Color GwenPink( 255, 65, 199, 255 );

@@ -47,7 +47,7 @@ namespace Gwen
 
 			protected:
 
-				static const int	MaxVerts = 1024;
+				static const int	MaxVerts = 4096;
 
 
 				void Flush();

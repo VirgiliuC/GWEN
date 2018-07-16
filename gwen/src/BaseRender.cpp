@@ -145,7 +145,7 @@ namespace Gwen
 
 		void Base::DrawMissingImage( Gwen::Rect pTargetRect )
 		{
-			SetDrawColor( Colors::Red );
+			SetDrawColor( Colors::Grey );
 			DrawFilledRect( pTargetRect );
 		}
 
